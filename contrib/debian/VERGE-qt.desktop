@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SHIELD
+Comment=SHIELD P2P Cryptocurrency
+Comment[fr]=SHIELD, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=SHIELD, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/SHIELD-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/SHIELD80.xpm
+MimeType=x-scheme-handler/SHIELD;
+Categories=Office;

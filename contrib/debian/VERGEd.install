@@ -1,0 +1,2 @@
+debian/bin/SHIELDd usr/bin
+src/SHIELDd usr/lib/SHIELD/
