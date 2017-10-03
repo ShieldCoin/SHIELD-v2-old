@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/ShieldCoin/ShieldCoin.svg?branch=master)](https://travis-ci.org/ShieldCoin/ShieldCoin)
-
-
-
 SHIELD [XSH] Source Code
 ================================
 
