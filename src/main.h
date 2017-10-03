@@ -28,8 +28,8 @@ class CInv;
 class CRequestTracker;
 class CNode;
 
-static const int MULTI_ALGO_SWITCH_BLOCK = 34000;
-static const unsigned int MAX_BLOCK_SIZE = 1000000;
+static const int MULTI_ALGO_SWITCH_BLOCK = 10000;
+static const unsigned int MAX_BLOCK_SIZE = 500000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
@@ -51,7 +51,7 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 
-static const uint256 hashGenesisBlockOfficial("0x00000fc6369246afaeb20cdb3b53200dc601d75bdfa1001463304cc790d77278");
+static const uint256 hashGenesisBlockOfficial("0x00000e9efbdc94741baec54e68fbc1d7cc3f8c08391a889f387b9ccec99d818d");
 static const uint256 hashGenesisBlockTestNet("0x000000194c2494e82753c35633887a0fa28bd4c96d9ac3c380c2e054d1539a43");
 
 static const int64 nMaxClockDrift = 2 * 60 * 60;        // two hours
