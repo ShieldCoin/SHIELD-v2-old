@@ -53,7 +53,7 @@ Step 1. Install the dependencies.
 
 Step 2. Clone the git repository and compile the daemon and gui wallet:
 
-```git clone https://github.com/ShieldCoin/Shield && cd ShieldCoin && ./autogen.sh && ./configure --with-incompatible-bdb && make```
+```git clone https://github.com/ShieldCoin/SHIELD && cd SHIELD && ./autogen.sh && ./configure --with-incompatible-bdb && make```
 
 if you are using source-build libdb4.8(++)-dev you may need to use
 
@@ -63,27 +63,27 @@ if you are using source-build libdb4.8(++)-dev you may need to use
 
 Using the wallet:
 ----
-The gui wallet is in ./ShieldCoin/src/qt and the daemon in ./ShieldCoin/src directories.
+The gui wallet is in ./SHIELD/src/qt and the daemon in ./SHIELD/src directories.
 
 **Note**: If you see something like 'Killed (program cc1plus)' run ```dmesg``` to see the error(s)/problems(s). This is most likely caused by running out of resources. You may need to add some RAM or add some swap space.
 
 **Optional**:
 If you want to copy the binaries for use by all users, run the following commands:
 
-```sudo cp src/Shieldd /usr/bin/```
+```sudo cp src/SHIELDd /usr/bin/```
 
-```sudo cp src/qt/Shield-qt /usr/bin/```
+```sudo cp src/qt/SHIELD-qt /usr/bin/```
 
 Step 3. Creating a configuration file. Type ```cd ~``` to get back to the home folder and type:
 
-```Shieldd.exe```  (or ```./Shieldd``` if on mac or linux)
+```SHIELDd.exe```  (or ```./SHIELDd``` if on mac or linux)
 
 the output from this command will tell you that you need to make a Shield.conf and will suggest some good starting values.
 
 For Linux users, type:
  
-```nano ~/.ShieldCoin/ShieldCoin.conf```
-(For Windows users, see below. For mac users, the command is ```nano ~/Library/Application\ Support\ShieldCoin\ShieldCoin.conf```)
+```nano ~/.SHIELD/SHIELD.conf```
+(For Windows users, see below. For mac users, the command is ```nano ~/Library/Application\ Support\SHIELD\SHIELD.conf```)
     
 Paste the output from the `Shieldd` command into the Shield.conf like this: (It is recommended to change the password to something unique.)
 
@@ -106,9 +106,9 @@ Your config may look something like this:
 
 Exit the Shield.conf by pressing `ctrl + x` on your keyboard then pressing `y` and hitting enter. This should have created a Shield.conf file with what you just added. 
 
-Type ```Shieldd.exe``` (or ```./Shieldd``` if on mac or linux) and your Shield daemon should start.
+Type ```SHIELDd.exe``` (or ```./SHIELDd``` if on mac or linux) and your Shield daemon should start.
 
-To check the status of how much of the blockchain has been downloaded (aka synced) type `Shieldd.exe getinfo` (or `./Shieldd getinfo` if on mac or linux).
+To check the status of how much of the blockchain has been downloaded (aka synced) type `SHIELDd.exe getinfo` (or `./SHIELDd getinfo` if on mac or linux).
 
 
 
@@ -141,9 +141,9 @@ To compile on Mac (OSX El Capitan, but test compiled on Mountain Lion v10.8):
     
 6. Download the wallet source and build:
 
-    `git clone https://github.com/ShieldCoin/Shield`
+    `git clone https://github.com/ShieldCoin/SHIELD`
 
-    `cd ShieldCoin`
+    `cd SHIELD`
     
     `./autogen.sh`
     
@@ -205,12 +205,12 @@ Using SHIELD on Windows
 1. Download the pre-compiled software. (only from official ShieldCoin site)
 2. Install
 3. In windows file explorer, open c:\Users\XXX\AppData\Roaming\ShieldCoin (be sure to change XXX to your windows user)
-4. Right click and create a new file ShieldCoin.txt
+4. Right click and create a new file SHIELD.txt
 5. Edit the file to have contents above (see instructions above for options)
 6. Save and close the file
 7. Reame the file to ShieldCoin.conf
-8. Start the ShieldCoin-qt program.
-9. Open up ShieldCoin-qt console and run ```getinfo``` (or ```getmininginfo```) to verify settings.
+8. Start the SHIELD-qt program.
+9. Open up SHIELD-qt console and run ```getinfo``` (or ```getmininginfo```) to verify settings.
 
 **Note:** You must re-start the wallet after making changes to ShieldCoin.conf.
 [How To build on Windows](https://bitcointalk.org/index.php?topic=149479.0)
@@ -219,8 +219,8 @@ Using SHIELD on Windows
 Thanks
 ----
 Special Thanks to: 
-* SHIELD Devs
-* SHIELD Devs
+* VERGE Devs
+* TOR Devs
 * Bitcoin Devs
 * Tor Devs
 
