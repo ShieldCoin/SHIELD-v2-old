@@ -2827,7 +2827,7 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1507042163;
         block.nBits    = bnProofOfWorkLimit[ALGO_SCRYPT].GetCompact();
-        block.nNonce   = 54176;
+        block.nNonce   = 1104291;
 
 				if(fTestNet)
 		{
@@ -2879,7 +2879,7 @@ bool LoadBlockIndex(bool fAllowNew)
            assert(block.hashMerkleRoot == uint256("0x8d032a5390720323084b8cff98a35f4486f59674a5b55a70fd865b21dedf5ba5"));
         }
         else {
-           assert(block.hashMerkleRoot == uint256("0xa21cf5bc6fccae008522949023462651426e505a4118d345f0a28ba97d82185a"));
+           assert(block.hashMerkleRoot == uint256("0x2d01f9081922ef57240630737125677c963767169d05397925e6c6e5f2adfee5"));
         }
 
 
