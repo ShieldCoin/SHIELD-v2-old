@@ -45,7 +45,7 @@ static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 unsigned int nStakeMinAge = 10000 * 10000;	// minimum age disabled
 unsigned int nStakeMaxAge = 10000 * 10000;	// stake max age disabled
 unsigned int nStakeTargetSpacing = 30;		// 30 seconds POS block spacing
-unsigned int nProofOfWorkTargetSpacing = 150; 	// 30 seconds PoW block spacing
+unsigned int nProofOfWorkTargetSpacing = 30; 	// 30 seconds PoW block spacing
 
 int64 nChainStartTime = 1507042163;
 int nCoinbaseMaturity = 240;
@@ -1058,6 +1058,169 @@ const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfSta
     return pindex;
 }
 
+// This is MIDAS (Multi Interval Difficulty Adjustment System), a novel getnextwork algorithm.  It responds quickly to
+// huge changes in hashing power, is immune to time warp attacks, and regulates the block rate to keep the block height
+// close to the block height expected given the nominal block interval and the elapsed time.  How close the
+// correspondence between block height and wall clock time is, depends on how stable the hashing power has been.  Maybe
+// Bitcoin can wait 2 weeks between updates but no altcoin can.
+
+// It is important that none of these intervals (5, 7, 9, 17) have any common divisor; eliminating the existence of
+// harmonics is an important part of eliminating the effectiveness of timewarp attacks.
+void avgRecentTimestamps(const CBlockIndex* pindexLast, int64_t *avgOf5, int64_t *avgOf7, int64_t *avgOf9, int64_t *avgOf17)
+{
+  int blockoffset = 0;
+  int64_t oldblocktime;
+  int64_t blocktime;
+
+  *avgOf5 = *avgOf7 = *avgOf9 = *avgOf17 = 0;
+  if (pindexLast)
+    blocktime = pindexLast->GetBlockTime();
+  else blocktime = 0;
+
+  for (blockoffset = 0; blockoffset < 17; blockoffset++)
+  {
+    oldblocktime = blocktime;
+    if (pindexLast)
+    {
+      pindexLast = pindexLast->pprev;
+      blocktime = pindexLast->GetBlockTime();
+    }
+    else
+    { // genesis block or previous
+    blocktime -= nProofOfWorkTargetSpacing;
+    }
+    // for each block, add interval.
+    if (blockoffset < 5) *avgOf5 += (oldblocktime - blocktime);
+    if (blockoffset < 7) *avgOf7 += (oldblocktime - blocktime);
+    if (blockoffset < 9) *avgOf9 += (oldblocktime - blocktime);
+    *avgOf17 += (oldblocktime - blocktime);    
+  }
+  // now we have the sums of the block intervals. Division gets us the averages. 
+  *avgOf5 /= 5;
+  *avgOf7 /= 7;
+  *avgOf9 /= 9;
+  *avgOf17 /= 17;
+}
+
+//unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHeader *pblock)
+unsigned int GetNextTargetRequired_V2(const CBlockIndex* pindexLast, bool fProofOfStake, int algo)
+{
+    int64_t avgOf5;
+    int64_t avgOf9;
+    int64_t avgOf7;
+    int64_t avgOf17;
+    int64_t toofast;
+    int64_t tooslow;
+    int64_t difficultyfactor = 10000;
+    int64_t now;
+    int64_t BlockHeightTime;
+
+    int64_t nFastInterval = (nProofOfWorkTargetSpacing * 9 ) / 10; // seconds per block desired when far behind schedule
+    int64_t nSlowInterval = (nProofOfWorkTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
+    int64_t nIntervalDesired;
+    
+
+    CBigNum bnTargetLimit = fProofOfStake ? bnProofOfStakeLimit : bnProofOfWorkLimit[algo];
+    unsigned int nTargetLimit = bnTargetLimit.GetCompact();
+    
+    if (pindexLast == NULL)
+        // Genesis Block
+        return nTargetLimit;
+   
+    // Regulate block times so as to remain synchronized in the long run with the actual time.  The first step is to
+    // calculate what interval we want to use as our regulatory goal.  It depends on how far ahead of (or behind)
+    // schedule we are.  If we're more than an adjustment period ahead or behind, we use the maximum (nSlowInterval) or minimum
+    // (nFastInterval) values; otherwise we calculate a weighted average somewhere in between them.  The closer we are
+    // to being exactly on schedule the closer our selected interval will be to our nominal interval (TargetSpacing).
+
+    now = pindexLast->GetBlockTime();
+    
+    BlockHeightTime = pindexGenesisBlock->nTime + pindexLast->nHeight * nProofOfWorkTargetSpacing;
+    
+    if (now < BlockHeightTime + nTargetTimespan && now > BlockHeightTime )
+    // ahead of schedule by less than one interval.
+    nIntervalDesired = ((nTargetTimespan - (now - BlockHeightTime)) * nProofOfWorkTargetSpacing +  
+                (now - BlockHeightTime) * nFastInterval) / nProofOfWorkTargetSpacing;
+    else if (now + nTargetTimespan > BlockHeightTime && now < BlockHeightTime)
+    // behind schedule by less than one interval.
+    nIntervalDesired = ((nTargetTimespan - (BlockHeightTime - now)) * nProofOfWorkTargetSpacing + 
+                (BlockHeightTime - now) * nSlowInterval) / nTargetTimespan;
+
+    // ahead by more than one interval;
+    else if (now < BlockHeightTime) nIntervalDesired = nSlowInterval;
+    
+    // behind by more than an interval. 
+    else  nIntervalDesired = nFastInterval;
+    
+    // find out what average intervals over last 5, 7, 9, and 17 blocks have been. 
+    avgRecentTimestamps(pindexLast, &avgOf5, &avgOf7, &avgOf9, &avgOf17);    
+
+    // check for emergency adjustments. These are to bring the diff up or down FAST when a burst miner or multipool
+    // jumps on or off.  Once they kick in they can adjust difficulty very rapidly, and they can kick in very rapidly
+    // after massive hash power jumps on or off.
+    
+    // Important note: This is a self-damping adjustment because 8/5 and 5/8 are closer to 1 than 3/2 and 2/3.  Do not
+    // screw with the constants in a way that breaks this relationship.  Even though self-damping, it will usually
+    // overshoot slightly. But normal adjustment will handle damping without getting back to emergency.
+    toofast = (nIntervalDesired * 2) / 3;
+    tooslow = (nIntervalDesired * 3) / 2;
+
+    // both of these check the shortest interval to quickly stop when overshot.  Otherwise first is longer and second shorter.
+    if (avgOf5 < toofast && avgOf9 < toofast && avgOf17 < toofast)
+    {  //emergency adjustment, slow down (longer intervals because shorter blocks)
+      printf("difficulty: GetNextWorkRequired EMERGENCY RETARGET\n");
+      difficultyfactor *= 8;
+      difficultyfactor /= 5;
+    }
+    else if (avgOf5 > tooslow && avgOf7 > tooslow && avgOf9 > tooslow)
+    {  //emergency adjustment, speed up (shorter intervals because longer blocks)
+      printf("difficulty: GetNextWorkRequired EMERGENCY RETARGET\n");
+      difficultyfactor *= 5;
+      difficultyfactor /= 8;
+    }
+
+    // If no emergency adjustment, check for normal adjustment. 
+    else if (((avgOf5 > nIntervalDesired || avgOf7 > nIntervalDesired) && avgOf9 > nIntervalDesired && avgOf17 > nIntervalDesired) ||
+         ((avgOf5 < nIntervalDesired || avgOf7 < nIntervalDesired) && avgOf9 < nIntervalDesired && avgOf17 < nIntervalDesired))
+    { // At least 3 averages too high or at least 3 too low, including the two longest. This will be executed 3/16 of
+      // the time on the basis of random variation, even if the settings are perfect. It regulates one-sixth of the way
+      // to the calculated point.
+      printf("difficulty: GetNextWorkRequired RETARGET\n");
+      difficultyfactor *= (6 * nIntervalDesired);
+      difficultyfactor /= (avgOf17 +(5 * nIntervalDesired));
+    }
+
+    // limit to doubling or halving.  There are no conditions where this will make a difference unless there is an
+    // unsuspected bug in the above code.
+    if (difficultyfactor > 20000) difficultyfactor = 20000;
+    if (difficultyfactor < 5000) difficultyfactor = 5000;
+
+    CBigNum bnNew;
+    CBigNum bnOld;
+
+    bnOld.SetCompact(pindexLast->nBits);
+
+    if (difficultyfactor == 10000) // no adjustment. 
+      return(bnOld.GetCompact());
+
+    bnNew = bnOld / difficultyfactor;
+    bnNew *= 10000;
+
+    if (bnNew > bnProofOfWorkLimit[algo])
+      bnNew = bnProofOfWorkLimit[algo];
+
+    printf("difficulty: ctual time %" PRId64 ", Scheduled time for this block height = %" PRId64 "\n", now, BlockHeightTime );
+    printf("difficulty: Nominal block interval = %u, regulating on interval %" PRId64 " to get back to schedule.\n", 
+          nProofOfWorkTargetSpacing, nIntervalDesired );
+    printf("difficulty: Intervals of last 5/7/9/17 blocks = %" PRId64 "/ %" PRId64 " / %" PRId64 " / %" PRId64 ".\n",
+          avgOf5, avgOf7, avgOf9, avgOf17);
+    printf("difficulty: Difficulty Before Adjustment: %u  %s\n", pindexLast->nBits, bnOld.ToString().c_str());
+    printf("difficulty: Difficulty After Adjustment:  %u  %s\n", bnNew.GetCompact(), bnNew.ToString().c_str());
+
+    return bnNew.GetCompact();
+     
+}
+
 unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, uint64 TargetBlocksSpacingSeconds, int algo) {
     /* difficulty formula, DarkGravity v3, written by Evan Duffield - evan@darkcoin.io */
     const CBlockIndex *BlockLastSolved = pindexLast;
@@ -1192,11 +1355,15 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 {
         if (pindexLast->nHeight < MULTI_ALGO_SWITCH_BLOCK)
         {
-                return GetNextTargetRequired_V1(pindexLast, fProofOfStake, algo);
+                return GetNextTargetRequired_V2(pindexLast, fProofOfStake, algo);
         }
         return DarkGravityWave3(pindexLast, nProofOfWorkTargetSpacing, algo);
 
 }
+
+
+
+
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, int algo)
 {
@@ -1899,7 +2066,7 @@ bool CBlock::SetBestChain(CTxDB& txdb, CBlockIndex* pindexNew)
         }
 
         if (!vpindexSecondary.empty())
-            printf("Postponing \"%PRIszu\" reconnects\n", vpindexSecondary.size());
+            printf("Postponing %" PRIszu " reconnects\n", vpindexSecondary.size());
 
         // Switch to new best branch
         if (!Reorganize(txdb, pindexIntermediate))
@@ -2641,7 +2808,7 @@ bool LoadBlockIndex(bool fAllowNew)
 //    CTxOut(empty)
 //vMerkleTree: ea6fed5e2
         // Genesis block
-        const char* pszTimestamp = "10/03/2017 11:09 pm,What we know about the Las Vegas massacre, ABC news";
+        const char* pszTimestamp = "October 5, 2017, Bloomberg, Bank of Montreal and Toronto Lead Peers in Pot Accounts";
 				if(fTestNet)
 					pszTimestamp = "SHIELD TESTNET";
         CTransaction txNew;
@@ -2660,7 +2827,7 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1507042163;
         block.nBits    = bnProofOfWorkLimit[ALGO_SCRYPT].GetCompact();
-        block.nNonce   = 541768;
+        block.nNonce   = 54176;
 
 				if(fTestNet)
 		{
@@ -2668,38 +2835,38 @@ bool LoadBlockIndex(bool fAllowNew)
 			block.nNonce = 823;
         }
         
-        // {
-        //                 // If genesis block hash does not match, then generate new genesis hash.
-        //     if (block.GetHash() != (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet))
-        //     {
-        //         printf("Searching for genesis block...\n");
-        //         // This will figure out a valid hash and Nonce if you're
-        //         // creating a different genesis block:
-        //         uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
-        //         uint256 thash;
-        //         while(true)
-        //         {
-        //             static char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
-        //             scrypt_1024_1_1_256_sp(BEGIN(block.nVersion), BEGIN(thash), scratchpad);        
-        //             if (thash <= hashTarget)
-        //                 break;
-        //             if ((block.nNonce & 0xFFF) == 0)
-        //             {
-        //                 printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
-        //             }
-        //             ++block.nNonce;
-        //             if (block.nNonce == 0)
-        //             {
-        //                 printf("NONCE WRAPPED, incrementing time\n");
-        //                 ++block.nTime;
-        //             }
-        //         }
-        //         printf("block.nTime = %u \n", block.nTime);
-        //         printf("block.nNonce = %u \n", block.nNonce);
-        //         printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
-        //         printf("block.hashMerkleRoot == %s\n", block.hashMerkleRoot.ToString().c_str());
-        //     }
-        // }
+        {
+                        // If genesis block hash does not match, then generate new genesis hash.
+            if (block.GetHash() != (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet))
+            {
+                printf("Searching for genesis block...\n");
+                // This will figure out a valid hash and Nonce if you're
+                // creating a different genesis block:
+                uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+                uint256 thash;
+                while(true)
+                {
+                    static char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
+                    scrypt_1024_1_1_256_sp(BEGIN(block.nVersion), BEGIN(thash), scratchpad);        
+                    if (thash <= hashTarget)
+                        break;
+                    if ((block.nNonce & 0xFFF) == 0)
+                    {
+                        printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+                    }
+                    ++block.nNonce;
+                    if (block.nNonce == 0)
+                    {
+                        printf("NONCE WRAPPED, incrementing time\n");
+                        ++block.nTime;
+                    }
+                }
+                printf("block.nTime = %u \n", block.nTime);
+                printf("block.nNonce = %u \n", block.nNonce);
+                printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
+                printf("block.hashMerkleRoot == %s\n", block.hashMerkleRoot.ToString().c_str());
+            }
+        }
         
         //// debug print
 		block.print();
@@ -2712,7 +2879,7 @@ bool LoadBlockIndex(bool fAllowNew)
            assert(block.hashMerkleRoot == uint256("0x8d032a5390720323084b8cff98a35f4486f59674a5b55a70fd865b21dedf5ba5"));
         }
         else {
-           assert(block.hashMerkleRoot == uint256("0xa21cf5b56fccae008522949023462651426e505a4118d345f0a28ba97d82185a"));
+           assert(block.hashMerkleRoot == uint256("0xa21cf5bc6fccae008522949023462651426e505a4118d345f0a28ba97d82185a"));
         }
 
 
@@ -4066,7 +4233,7 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int algo)
     CReserveKey reservekey(pwallet);
 
     // Create new block
-    auto_ptr<CBlock> pblock(new CBlock());
+    unique_ptr<CBlock> pblock(new CBlock());
     if (!pblock.get())
         return NULL;
 
@@ -4520,7 +4687,7 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
 
-        auto_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        unique_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
         if (!pblock.get())
             return;
         IncrementExtraNonce(pblock.get(), pindexPrev, nExtraNonce);
