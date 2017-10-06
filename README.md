@@ -31,9 +31,9 @@ Binary (pre-compiled) wallets are available on all platforms at [https://ShieldC
 Compiling Linux Wallet on Ubuntu/Debian (faster) 
 ----------------------
 
-sudo rm -Rf ~/ShieldCoin  #(if you already have it) 
+sudo rm -Rf ~/SHIELD  #(if you already have it) 
 
-sudo apt-get -y install git && cd ~ && git clone https://github.com/ShieldCoin/Shield && cd ShieldCoin && sh go.sh
+sudo apt-get -y install git && cd ~ && git clone https://github.com/ShieldCoin/SHIELD && cd SHIELD && sh go.sh
 
 
 Compiling Linux Wallet on Ubuntu/Debian
@@ -81,7 +81,7 @@ For Linux users, type:
 ```nano ~/.SHIELD/SHIELD.conf```
 (For Windows users, see below. For mac users, the command is ```nano ~/Library/Application\ Support\SHIELD\SHIELD.conf```)
     
-Paste the output from the `Shieldd` command into the Shield.conf like this: (It is recommended to change the password to something unique.)
+Paste the output from the `SHIELDd` command into the Shield.conf like this: (It is recommended to change the password to something unique.)
 
     rpcuser=Shieldrpcusername
     rpcpassword=85CpSuCNvDcYsdQU8w621mkQqJAimSQwCSJL5dPT9wQX
