@@ -45,7 +45,7 @@ static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 unsigned int nStakeMinAge = 10000 * 10000;	// minimum age disabled
 unsigned int nStakeMaxAge = 10000 * 10000;	// stake max age disabled
 unsigned int nStakeTargetSpacing = 30;		// 30 seconds POS block spacing
-unsigned int nProofOfWorkTargetSpacing = 30; 	// 30 seconds PoW block spacing
+unsigned int nProofOfWorkTargetSpacing = 15; 	// 30 seconds PoW block spacing
 
 int64 nChainStartTime = 1507042163;
 int nCoinbaseMaturity = 240;
@@ -2835,38 +2835,38 @@ bool LoadBlockIndex(bool fAllowNew)
 			block.nNonce = 823;
         }
         
-        {
-                        // If genesis block hash does not match, then generate new genesis hash.
-            if (block.GetHash() != (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet))
-            {
-                printf("Searching for genesis block...\n");
-                // This will figure out a valid hash and Nonce if you're
-                // creating a different genesis block:
-                uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
-                uint256 thash;
-                while(true)
-                {
-                    static char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
-                    scrypt_1024_1_1_256_sp(BEGIN(block.nVersion), BEGIN(thash), scratchpad);        
-                    if (thash <= hashTarget)
-                        break;
-                    if ((block.nNonce & 0xFFF) == 0)
-                    {
-                        printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
-                    }
-                    ++block.nNonce;
-                    if (block.nNonce == 0)
-                    {
-                        printf("NONCE WRAPPED, incrementing time\n");
-                        ++block.nTime;
-                    }
-                }
-                printf("block.nTime = %u \n", block.nTime);
-                printf("block.nNonce = %u \n", block.nNonce);
-                printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
-                printf("block.hashMerkleRoot == %s\n", block.hashMerkleRoot.ToString().c_str());
-            }
-        }
+        // {
+        //                 // If genesis block hash does not match, then generate new genesis hash.
+        //     if (block.GetHash() != (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet))
+        //     {
+        //         printf("Searching for genesis block...\n");
+        //         // This will figure out a valid hash and Nonce if you're
+        //         // creating a different genesis block:
+        //         uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+        //         uint256 thash;
+        //         while(true)
+        //         {
+        //             static char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
+        //             scrypt_1024_1_1_256_sp(BEGIN(block.nVersion), BEGIN(thash), scratchpad);        
+        //             if (thash <= hashTarget)
+        //                 break;
+        //             if ((block.nNonce & 0xFFF) == 0)
+        //             {
+        //                 printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+        //             }
+        //             ++block.nNonce;
+        //             if (block.nNonce == 0)
+        //             {
+        //                 printf("NONCE WRAPPED, incrementing time\n");
+        //                 ++block.nTime;
+        //             }
+        //         }
+        //         printf("block.nTime = %u \n", block.nTime);
+        //         printf("block.nNonce = %u \n", block.nNonce);
+        //         printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
+        //         printf("block.hashMerkleRoot == %s\n", block.hashMerkleRoot.ToString().c_str());
+        //     }
+        // }
         
         //// debug print
 		block.print();
