@@ -47,7 +47,7 @@ unsigned int nStakeMaxAge = 10000 * 10000;	// stake max age disabled
 unsigned int nStakeTargetSpacing = 30;		// 30 seconds POS block spacing
 unsigned int nProofOfWorkTargetSpacing = 15; 	// 30 seconds PoW block spacing
 
-int64 nChainStartTime = 1507042163;
+int64 nChainStartTime = 1507311620;
 int nCoinbaseMaturity = 240;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -2825,9 +2825,9 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1507042163;
+        block.nTime    = 1507311620;
         block.nBits    = bnProofOfWorkLimit[ALGO_SCRYPT].GetCompact();
-        block.nNonce   = 1104291;
+        block.nNonce   = 2527094;
 
 				if(fTestNet)
 		{
@@ -2879,7 +2879,7 @@ bool LoadBlockIndex(bool fAllowNew)
            assert(block.hashMerkleRoot == uint256("0x8d032a5390720323084b8cff98a35f4486f59674a5b55a70fd865b21dedf5ba5"));
         }
         else {
-           assert(block.hashMerkleRoot == uint256("0x2d01f9081922ef57240630737125677c963767169d05397925e6c6e5f2adfee5"));
+           assert(block.hashMerkleRoot == uint256("0x925f83741e769a8bb4c6e51586a5352e6ea511c4f7de5d46aa53ae88d0dd7d32"));
         }
 
 
