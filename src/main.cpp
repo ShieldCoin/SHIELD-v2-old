@@ -1353,12 +1353,14 @@ unsigned int GetNextTargetRequired_V1(const CBlockIndex* pindexLast, bool fProof
 
 unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake, int algo)
 {
-        if (pindexLast->nHeight < MULTI_ALGO_SWITCH_BLOCK)
+        if (pindexLast->nHeight < 200){//first 200 blocks with default retarget
+            return GetNextTargetRequired_V1(pindexLast, fProofOfStake, algo);
+        }else
+        if (pindexLast->nHeight < MULTI_ALGO_SWITCH_BLOCK)//after that first 10000 with MIDAS
         {
                 return GetNextTargetRequired_V2(pindexLast, fProofOfStake, algo);
         }
-        return DarkGravityWave3(pindexLast, nProofOfWorkTargetSpacing, algo);
-
+        return DarkGravityWave3(pindexLast, nProofOfWorkTargetSpacing, algo);//Then DarkGravityWave3
 }
 
 
