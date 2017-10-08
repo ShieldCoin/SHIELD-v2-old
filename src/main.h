@@ -157,7 +157,7 @@ enum
 
 inline int GetAlgo(int nVersion)
 {
-    switch (nVersion & (nBestHeight >= 380000 ? BLOCK_VERSION_ALGO : BLOCK_VERSION_ALGO_BROKEN))
+    switch (nVersion & BLOCK_VERSION_ALGO)
     {
         case BLOCK_VERSION_SCRYPT:
             return ALGO_SCRYPT;
