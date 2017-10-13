@@ -14,6 +14,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/move/unique_ptr.hpp>
 
 using namespace std;
 using namespace boost;
@@ -4235,7 +4236,12 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int algo)
     CReserveKey reservekey(pwallet);
 
     // Create new block
-    auto_ptr<CBlock> pblock(new CBlock());
+    #if BOOST_VERSION >= 105700
+        unique_ptr<CBlock> pblock(new CBlock());
+    #else
+        auto_ptr<CBlock> pblock(new CBlock());
+    #endif
+    
     if (!pblock.get())
         return NULL;
 
@@ -4689,7 +4695,12 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
 
-        auto_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        #if BOOST_VERSION >= 105700
+            unique_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        #else
+            auto_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        #endif
+        
         if (!pblock.get())
             return;
         IncrementExtraNonce(pblock.get(), pindexPrev, nExtraNonce);
