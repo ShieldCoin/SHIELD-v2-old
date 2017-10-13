@@ -14,6 +14,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/move/unique_ptr.hpp>
 
 using namespace std;
 using namespace boost;
@@ -4235,7 +4236,12 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int algo)
     CReserveKey reservekey(pwallet);
 
     // Create new block
-    boost::csbl::unique_ptr<CBlock> pblock(new CBlock());
+    #if BOOST_VERSION >= 105700
+        unique_ptr<CBlock> pblock(new CBlock());
+    #else
+        auto_ptr<CBlock> pblock(new CBlock());
+    #endif
+    
     if (!pblock.get())
         return NULL;
 
@@ -4667,7 +4673,7 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
             return;
         while (vNodes.empty() || IsInitialBlockDownload())
         {
-            Sleep(1000);
+            MilliSleep(1000);
             if (fShutdown)
                 return;
             if ((!fGenerateBitcoins) && !fProofOfStake)
@@ -4677,7 +4683,7 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
         while (pwallet->IsLocked())
         {
             strMintWarning = strMintMessage;
-            Sleep(1000);
+            MilliSleep(1000);
             if (fShutdown)
                 return;
         }
@@ -4689,7 +4695,12 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
 
-        boost::csbl::unique_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        #if BOOST_VERSION >= 105700
+            unique_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        #else
+            auto_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
+        #endif
+        
         if (!pblock.get())
             return;
         IncrementExtraNonce(pblock.get(), pindexPrev, nExtraNonce);
@@ -4710,7 +4721,7 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
                 CheckWork(pblock.get(), *pwalletMain, reservekey);
                 SetThreadPriority(THREAD_PRIORITY_LOWEST);
             }
-            Sleep(500);
+            MilliSleep(500);
             continue;
         }
 
@@ -4866,7 +4877,7 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet)
         {
             if (!NewThread(ThreadSHIELDMiner, pwallet))
                 printf("Error: NewThread(ThreadSHIELDMiner) failed\n");
-            Sleep(10);
+            MilliSleep(10);
         }
     }
 }
