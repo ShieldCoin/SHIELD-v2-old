@@ -21,6 +21,11 @@ AH_BOTTOM([#endif //SHIELD_CONFIG_H])
 # probably be removed when building on <= 10.6 is no longer supported.
 m4_include([pkg.m4])
 
+AC_ARG_VAR(ARFLAGS, [Flags for the archiver, defaults to <cr> if not set])
+if test "x${ARFLAGS+set}" != "xset"; then
+  ARFLAGS="cr"
+fi
+
 dnl faketime breaks configure and is only needed for make. Disable it here.
 unset FAKETIME
 
