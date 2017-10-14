@@ -216,9 +216,10 @@ Thanks
 ----
 Special Thanks to: 
 * VERGE Devs
-* TOR Devs
-* Bitcoin Devs
 * Tor Devs
+* i2p Devs
+* Bitcoin Devs
+
 
 
 Linux Wallet Video Tutorial

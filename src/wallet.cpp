@@ -1509,7 +1509,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 			else
 				txNew.vout[1].nValue = ((nCredit - nMinFee) / 2 / CENT ) * CENT;
 
-				txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
+			txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
         	}
         else
             txNew.vout[1].nValue = nCredit - nMinFee;
