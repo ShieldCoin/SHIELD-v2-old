@@ -4236,7 +4236,7 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int algo)
     CReserveKey reservekey(pwallet);
 
     // Create new block
-    #if BOOST_VERSION >= 105700
+    #if BOOST_VERSION >= 106400
         unique_ptr<CBlock> pblock(new CBlock());
     #else
         auto_ptr<CBlock> pblock(new CBlock());
@@ -4695,7 +4695,7 @@ void SHIELDMiner(CWallet *pwallet, bool fProofOfStake)
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
 
-        #if BOOST_VERSION >= 105700
+        #if BOOST_VERSION >= 106400
             unique_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
         #else
             auto_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake, fProofOfStake ? ALGO_SCRYPT : miningAlgo));
