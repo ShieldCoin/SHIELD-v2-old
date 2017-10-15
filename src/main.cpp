@@ -14,7 +14,9 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#if BOOST_VERSION >= 106400
 #include <boost/move/unique_ptr.hpp>
+#endif
 
 using namespace std;
 using namespace boost;
