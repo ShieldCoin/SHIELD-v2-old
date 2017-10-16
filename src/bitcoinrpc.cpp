@@ -9,7 +9,7 @@
 #include "ui_interface.h"
 #include "base58.h"
 #include "bitcoinrpc.h"
-#include "dbx.h"
+#include "db.h"
 
 #undef printf
 #include <boost/asio.hpp>
@@ -189,8 +189,6 @@ Value stop(const Array& params, bool fHelp)
             "<detach> is true or false to detach the database or not for this stop only\n"
             "Stop SHIELD server (and possibly override the detachdb config value).");
     // Shutdown will take long enough that the response should get back
-    if (params.size() > 0)
-        bitdb.SetDetach(params[0].get_bool());
     StartShutdown();
     return "SHIELD server stopping";
 }
