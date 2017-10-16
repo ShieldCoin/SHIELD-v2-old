@@ -7,7 +7,7 @@
 
 #include "checkpoints.h"
 
-#include "dbx.h"
+#include "txdb.h"
 #include "main.h"
 #include "uint256.h"
 
@@ -25,27 +25,30 @@ namespace Checkpoints
     static MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
         (     0,  hashGenesisBlockOfficial)
-        (  6000, uint256("0xda9399cd8e4ffe49fcd8ded611e3e75d515dfd65f48ba85b4534dd706c040114"))
-        /*(  30000, uint256("0x0000000003dddf9e84b1246e9a0bd7ceb2672998294e8c823d5ef288fa3781f4"))
-	(  45000, uint256("0x000000000321d6be8ffe446a9183f7605e40f523436479b713762346ae65a3bd"))
-	(  60000, uint256("0x00000000122a8a1dbdc9d2ab530facf3fefa2e7cee0393f628921cae3c60483f"))
-	(  75000, uint256("0x0000000016e3bb233f2196d532e8e7831ad19c9235e833309d10faf14b7902af"))
-	(  90000, uint256("0x0000000010f470ed5eda53dc12707e34297e75b7bd91f5e5ac9fb72050112e57"))
-	(  100000, uint256("0x000000000400a93131a94ad193c63faafeb8dfcc0c7d0e6f1c9c2614cb2823eb"))
-	(  150000, uint256("0x0000000000548f44babc055557c5870b15d1401bb0de72fb6a6c19d6c5f36d10"))
-	(  200000, uint256("0x000000000010dd127bfe9f6b8c36080c45bcd352151aa0d2a4c79c9eba1e05b6"))
-	(  219912, uint256("0x00000000010751365b77b28dc6af3c33e6c620e45a166c659a2056dc7cb3af0a"))
-	(  222222, uint256("0x00000000003c92cf2938d35cf4006fc21a251d82456780cafb43ab908eef9aff"))
-	(  244219, uint256("0x000000000139613d26f7436ecc568feb566c22d9a664359e53f0d0a542d5bdba"))
-	(  400000, uint256("0x0000000001d45af6613024ad5668bfa4909ac63e2b29c28042013d77a216830d"))
-	(  500000, uint256("0x0000000003700a4e9d81a67036d7647361086527e985cdf764648c5e61d07303"))
-	(  600000, uint256("0x30fa1eab961c99f6222f9925a27136c34ea27182c92e4f8c48ea3a90c7c2eb25"))
-	(  700000, uint256("0x3e4f3319706870bb149d1a976202c2a5e973384d181a600e7be59cbab5b63132"))
-	(  800000, uint256("0xf6b5f222bcc2f4e2439ccf6050d4ea3e9517c3752c3247302f039822ac9cc870"))
-	(  900000, uint256("0xc4d8b4079da888985854eda0200fb57045c2c70b29f10e98543f7c4076129e91"))
-	( 1000000, uint256("0x000000000049eaba3d6c29d9f45bc2a944b46eec005e2b038f1ee924f2f9c029"))
-	( 1100000, uint256("0xc766387a2e0cd6af995ea432518614824fe313e988598ea8b26f58efb99ebcdc"))
-	( 1145029, uint256("0x04def2ba205c1e5f4b33873bc9e5b0a54311370e823686aeb4d5aab0bf021899"))*/
+        (  5000, uint256("0xcadcdeb695791dccd20b5a284a32abd73a364d5cb23ff31d62a35d2c97da2a52"))
+        (  25000, uint256("0x95ae6a7776b2ebdd0be13df931f497a384061557ba2747187413aaa2d5e6dad3"))
+        (  50000, uint256("0xe20c589f8e50bafda6870790f1a9bcb945018266c762384c75ca3f86d240d764"))
+        (  100000, uint256("0xd0aa58f4abb1b422595a850cc32dc081e9235774d5d9517e1a469f202ddb791e"))
+        (  150000, uint256("0x90ce1a2a93125950ad4df9ba9ebd86e94d372617b8700b1da3555c740edc944f"))
+	// (  45000, uint256("0x000000000321d6be8ffe446a9183f7605e40f523436479b713762346ae65a3bd"))
+	// (  60000, uint256("0x00000000122a8a1dbdc9d2ab530facf3fefa2e7cee0393f628921cae3c60483f"))
+	// (  75000, uint256("0x0000000016e3bb233f2196d532e8e7831ad19c9235e833309d10faf14b7902af"))
+	// (  90000, uint256("0x0000000010f470ed5eda53dc12707e34297e75b7bd91f5e5ac9fb72050112e57"))
+	// (  100000, uint256("0x000000000400a93131a94ad193c63faafeb8dfcc0c7d0e6f1c9c2614cb2823eb"))
+	// (  150000, uint256("0x0000000000548f44babc055557c5870b15d1401bb0de72fb6a6c19d6c5f36d10"))
+	// (  200000, uint256("0x000000000010dd127bfe9f6b8c36080c45bcd352151aa0d2a4c79c9eba1e05b6"))
+	// (  219912, uint256("0x00000000010751365b77b28dc6af3c33e6c620e45a166c659a2056dc7cb3af0a"))
+	// (  222222, uint256("0x00000000003c92cf2938d35cf4006fc21a251d82456780cafb43ab908eef9aff"))
+	// (  244219, uint256("0x000000000139613d26f7436ecc568feb566c22d9a664359e53f0d0a542d5bdba"))
+	// (  400000, uint256("0x0000000001d45af6613024ad5668bfa4909ac63e2b29c28042013d77a216830d"))
+	// (  500000, uint256("0x0000000003700a4e9d81a67036d7647361086527e985cdf764648c5e61d07303"))
+	// (  600000, uint256("0x30fa1eab961c99f6222f9925a27136c34ea27182c92e4f8c48ea3a90c7c2eb25"))
+	// (  700000, uint256("0x3e4f3319706870bb149d1a976202c2a5e973384d181a600e7be59cbab5b63132"))
+	// (  800000, uint256("0xf6b5f222bcc2f4e2439ccf6050d4ea3e9517c3752c3247302f039822ac9cc870"))
+	// (  900000, uint256("0xc4d8b4079da888985854eda0200fb57045c2c70b29f10e98543f7c4076129e91"))
+	// ( 1000000, uint256("0x000000000049eaba3d6c29d9f45bc2a944b46eec005e2b038f1ee924f2f9c029"))
+	// ( 1100000, uint256("0xc766387a2e0cd6af995ea432518614824fe313e988598ea8b26f58efb99ebcdc"))
+	// ( 1145029, uint256("0x04def2ba205c1e5f4b33873bc9e5b0a54311370e823686aeb4d5aab0bf021899"))
         ;
 
     static MapCheckpoints mapCheckpointsTestnet =
@@ -168,7 +171,6 @@ namespace Checkpoints
         }
         if (!txdb.TxnCommit())
             return error("WriteSyncCheckpoint(): failed to commit to db sync checkpoint %s", hashCheckpoint.ToString().c_str());
-        txdb.Close();
 
         Checkpoints::hashSyncCheckpoint = hashCheckpoint;
         return true;
@@ -199,7 +201,6 @@ namespace Checkpoints
                     return error("AcceptPendingSyncCheckpoint: SetBestChain failed for sync checkpoint %s", hashPendingCheckpoint.ToString().c_str());
                 }
             }
-            txdb.Close();
 
             if (!WriteSyncCheckpoint(hashPendingCheckpoint))
                 return error("AcceptPendingSyncCheckpoint(): failed to write sync checkpoint %s", hashPendingCheckpoint.ToString().c_str());
@@ -290,7 +291,6 @@ namespace Checkpoints
             {
                 return error("ResetSyncCheckpoint: SetBestChain failed for hardened checkpoint %s", hash.ToString().c_str());
             }
-            txdb.Close();
         }
         else if(!mapBlockIndex.count(hash))
         {
@@ -457,7 +457,6 @@ bool CSyncCheckpoint::ProcessSyncCheckpoint(CNode* pfrom)
             return error("ProcessSyncCheckpoint: SetBestChain failed for sync checkpoint %s", hashCheckpoint.ToString().c_str());
         }
     }
-    txdb.Close();
 
     if (!Checkpoints::WriteSyncCheckpoint(hashCheckpoint))
         return error("ProcessSyncCheckpoint(): failed to write sync checkpoint %s", hashCheckpoint.ToString().c_str());
