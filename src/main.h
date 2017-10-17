@@ -155,6 +155,21 @@ enum
     BLOCK_VERSION_LYRA2RE	 = (10 << 11),
 };
 
+inline int GetTargetSpacing(int Height=nBestHeight, bool fProofOfStake=false)
+{
+    if(fProofOfStake){
+        return 45;
+    }
+    else
+    {
+        if (Height < 370000){
+            return 15;//15/5 = 3sec
+        }else{
+            return 225;//225/5 = 45sec
+        }
+    }
+}
+
 inline int GetAlgo(int nVersion)
 {
     switch (nVersion & BLOCK_VERSION_ALGO)
@@ -165,10 +180,10 @@ inline int GetAlgo(int nVersion)
             return ALGO_GROESTL;
         case BLOCK_VERSION_LYRA2RE:
             return ALGO_LYRA2RE;
-	case BLOCK_VERSION_X17:
-	    return ALGO_X17;
-	case BLOCK_VERSION_BLAKE:
-	    return ALGO_BLAKE;
+        case BLOCK_VERSION_X17:
+            return ALGO_X17;
+        case BLOCK_VERSION_BLAKE:
+            return ALGO_BLAKE;
     }
     return ALGO_SCRYPT;
 }
@@ -183,10 +198,10 @@ inline std::string GetAlgoName(int Algo)
             return std::string("groestl");
         case ALGO_LYRA2RE:
             return std::string("lyra2re");
-	case ALGO_BLAKE:
-	    return std::string("blake");
-	case ALGO_X17:
-	    return std::string("x17");
+        case ALGO_BLAKE:
+            return std::string("blake");
+        case ALGO_X17:
+            return std::string("x17");
 
     }
     return std::string("unknown");
