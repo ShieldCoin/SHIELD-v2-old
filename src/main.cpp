@@ -47,7 +47,7 @@ static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 unsigned int nStakeMinAge = 10000 * 10000;	// minimum age disabled
 unsigned int nStakeMaxAge = 10000 * 10000;	// stake max age disabled
 unsigned int nStakeTargetSpacing = 30;		// 30 seconds POS block spacing
-unsigned int nProofOfWorkTargetSpacing = 15; 	// 30 seconds PoW block spacing
+//unsigned int nProofOfWorkTargetSpacing = 15; 	// 30 seconds PoW block spacing
 
 int64 nChainStartTime = 1507311620;
 int nCoinbaseMaturity = 240;
@@ -1086,7 +1086,7 @@ void avgRecentTimestamps(const CBlockIndex* pindexLast, int64_t *avgOf5, int64_t
     }
     else
     { // genesis block or previous
-    blocktime -= nProofOfWorkTargetSpacing;
+    blocktime -= GetTargetSpacing(pindexLast->nHeight);
     }
     // for each block, add interval.
     if (blockoffset < 5) *avgOf5 += (oldblocktime - blocktime);
@@ -1114,8 +1114,8 @@ unsigned int GetNextTargetRequired_V2(const CBlockIndex* pindexLast, bool fProof
     int64_t now;
     int64_t BlockHeightTime;
 
-    int64_t nFastInterval = (nProofOfWorkTargetSpacing * 9 ) / 10; // seconds per block desired when far behind schedule
-    int64_t nSlowInterval = (nProofOfWorkTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
+    int64_t nFastInterval = (GetTargetSpacing(pindexLast->nHeight) * 9 ) / 10; // seconds per block desired when far behind schedule
+    int64_t nSlowInterval = (GetTargetSpacing(pindexLast->nHeight) * 11) / 10; // seconds per block desired when far ahead of schedule
     int64_t nIntervalDesired;
     
 
@@ -1134,15 +1134,15 @@ unsigned int GetNextTargetRequired_V2(const CBlockIndex* pindexLast, bool fProof
 
     now = pindexLast->GetBlockTime();
     
-    BlockHeightTime = pindexGenesisBlock->nTime + pindexLast->nHeight * nProofOfWorkTargetSpacing;
+    BlockHeightTime = pindexGenesisBlock->nTime + pindexLast->nHeight * GetTargetSpacing(pindexLast->nHeight);
     
     if (now < BlockHeightTime + nTargetTimespan && now > BlockHeightTime )
     // ahead of schedule by less than one interval.
-    nIntervalDesired = ((nTargetTimespan - (now - BlockHeightTime)) * nProofOfWorkTargetSpacing +  
-                (now - BlockHeightTime) * nFastInterval) / nProofOfWorkTargetSpacing;
+    nIntervalDesired = ((nTargetTimespan - (now - BlockHeightTime)) * GetTargetSpacing(pindexLast->nHeight) +  
+                (now - BlockHeightTime) * nFastInterval) / GetTargetSpacing(pindexLast->nHeight);
     else if (now + nTargetTimespan > BlockHeightTime && now < BlockHeightTime)
     // behind schedule by less than one interval.
-    nIntervalDesired = ((nTargetTimespan - (BlockHeightTime - now)) * nProofOfWorkTargetSpacing + 
+    nIntervalDesired = ((nTargetTimespan - (BlockHeightTime - now)) * GetTargetSpacing(pindexLast->nHeight) + 
                 (BlockHeightTime - now) * nSlowInterval) / nTargetTimespan;
 
     // ahead by more than one interval;
@@ -1210,7 +1210,7 @@ unsigned int GetNextTargetRequired_V2(const CBlockIndex* pindexLast, bool fProof
 
     printf("difficulty: ctual time %" PRId64 ", Scheduled time for this block height = %" PRId64 "\n", now, BlockHeightTime );
     printf("difficulty: Nominal block interval = %u, regulating on interval %" PRId64 " to get back to schedule.\n", 
-          nProofOfWorkTargetSpacing, nIntervalDesired );
+          GetTargetSpacing(pindexLast->nHeight), nIntervalDesired );
     printf("difficulty: Intervals of last 5/7/9/17 blocks = %" PRId64 "/ %" PRId64 " / %" PRId64 " / %" PRId64 ".\n",
           avgOf5, avgOf7, avgOf9, avgOf17);
     printf("difficulty: Difficulty Before Adjustment: %u  %s\n", pindexLast->nBits, bnOld.ToString().c_str());
@@ -1359,7 +1359,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
         {
                 return GetNextTargetRequired_V2(pindexLast, fProofOfStake, algo);
         }
-        return DarkGravityWave3(pindexLast, nProofOfWorkTargetSpacing, algo);//Then DarkGravityWave3
+        return DarkGravityWave3(pindexLast, GetTargetSpacing(pindexLast->nHeight), algo);//Then DarkGravityWave3
 }
 
 
