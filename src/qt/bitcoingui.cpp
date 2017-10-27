@@ -27,7 +27,6 @@
 #include "guiutil.h"
 #include "rpcconsole.h"
 #include "chatwindow.h"
-#include "radio.h"
 
 #ifdef Q_OS_MAC
 #include "macdockiconhandler.h"
@@ -114,7 +113,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     transactionView = new TransactionView(this);
     vbox->addWidget(transactionView);
     transactionsPage->setLayout(vbox);
-	radioPage = new Radio(this);
 
     addressBookPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::SendingTab);
 
@@ -132,7 +130,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget->addWidget(addressBookPage);
     centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
-	centralWidget->addWidget(radioPage);
     setCentralWidget(centralWidget);
 
     // Create status bar
@@ -251,11 +248,6 @@ void BitcoinGUI::createActions()
     blockAction->setCheckable(true);
     tabGroup->addAction(blockAction);
 	
-	radioAction = new QAction(QIcon(":/icons/radio"), tr("&Radio"), this);
-    radioAction->setToolTip(tr("SHIELD Radio"));
-    radioAction->setCheckable(true);
-    radioAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_0));
-    tabGroup->addAction(radioAction);
 
     connect(blockAction, SIGNAL(triggered()), this, SLOT(gotoBlockBrowser()));
 	connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -269,7 +261,6 @@ void BitcoinGUI::createActions()
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(gotoAddressBookPage()));
-	connect(radioAction, SIGNAL(triggered()), this, SLOT(gotoRadioPage()));
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
     quitAction->setToolTip(tr("Quit application"));
@@ -364,7 +355,6 @@ void BitcoinGUI::createToolBars()
     toolbar->addAction(addressBookAction);
     toolbar->addAction(blockAction);
     toolbar->addAction(chatAction);
-    toolbar->addAction(radioAction);
 
 
     QToolBar *toolbar2 = addToolBar(tr("Actions toolbar"));
@@ -434,7 +424,6 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel)
         sendCoinsPage->setModel(walletModel);
         signVerifyMessageDialog->setModel(walletModel);
 		blockBrowser->setModel(clientModel);
-		radioPage->setModel(walletModel);
 
         setEncryptionStatus(walletModel->getEncryptionStatus());
         connect(walletModel, SIGNAL(encryptionStatusChanged(int)), this, SLOT(setEncryptionStatus(int)));
@@ -751,15 +740,6 @@ void BitcoinGUI::gotoChatPage()
 {
     chatAction->setChecked(true);
     centralWidget->setCurrentWidget(chatWindow);
-
-    exportAction->setEnabled(false);
-    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
-}
-
-void BitcoinGUI::gotoRadioPage()
-{
-    radioAction->setChecked(true);
-    centralWidget->setCurrentWidget(radioPage);
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);

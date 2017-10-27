@@ -461,7 +461,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     model->getOutputs(vCoinControl, vOutputs);
 
     nPayFee = nTransactionFee;
-    loop
+    while(true)
     {
         txDummy.vin.clear();
         txDummy.vout.clear();
@@ -717,7 +717,7 @@ void CoinControlDialog::updateView()
             itemOutput->setText(COLUMN_CONFIRMATIONS, strPad(QString::number(out.nDepth), 8, " "));
 
             // coin age
-            int nDayWeight = (min((GetAdjustedTime() - out.tx->GetTxTime()), (int64) nStakeMaxAge) - nStakeMinAge) / 86400;
+            int nDayWeight = (min((GetAdjustedTime() - out.tx->GetTxTime()), (int64)( 10000 * 10000)) - nStakeMinAge) / 86400;
             uint64 coinAge = max(out.tx->vout[out.i].nValue * nDayWeight / COIN, (int64) 0);
             itemOutput->setText(COLUMN_COINAGE, strPad(QString::number(coinAge), 8, " "));
 
