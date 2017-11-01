@@ -114,7 +114,7 @@ To compile on Mac (OSX El Capitan, but test compiled on Mountain Lion v10.8):
 
     `brew uninstall qt qt5 qt55 qt52`   
    
-2. Download [qt5.4.2](https://download.qt.io/official_releases/qt/5.4/5.4.2/qt-opensource-mac-x64-clang-5.4.2.dmg)
+2. Download [qt5.4.2](https://download.qt.io/archive/qt/5.4/5.4.2/qt-opensource-mac-x64-clang-5.4.2.dmg)
      
 3. Install qt5 into /usr/local/qt5
    
