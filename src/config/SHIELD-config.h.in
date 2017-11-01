@@ -118,6 +118,9 @@
 /* Define to 1 if you have the `iphlpapi' library (-liphlpapi). */
 #undef HAVE_LIBIPHLPAPI
 
+/* Define to 1 if you have the `jpeg ' library (-ljpeg ). */
+#undef HAVE_LIBJPEG_
+
 /* Define to 1 if you have the `kernel32' library (-lkernel32). */
 #undef HAVE_LIBKERNEL32
 
@@ -135,6 +138,9 @@
 
 /* Define to 1 if you have the `oleaut32' library (-loleaut32). */
 #undef HAVE_LIBOLEAUT32
+
+/* Define to 1 if you have the `pcre16 ' library (-lpcre16 ). */
+#undef HAVE_LIBPCRE16_
 
 /* Define to 1 if you have the `png ' library (-lpng ). */
 #undef HAVE_LIBPNG_
@@ -260,6 +266,15 @@
    your system. */
 #undef PTHREAD_CREATE_JOINABLE
 
+/* Define this symbol if the qt platform is cocoa */
+#undef QT_QPA_PLATFORM_COCOA
+
+/* Define this symbol if the qt platform is windows */
+#undef QT_QPA_PLATFORM_WINDOWS
+
+/* Define this symbol if the qt platform is xcb */
+#undef QT_QPA_PLATFORM_XCB
+
 /* Define this symbol if qt plugins are static */
 #undef QT_STATICPLUGIN
 
@@ -289,11 +304,6 @@
 # ifndef WORDS_BIGENDIAN
 #  undef WORDS_BIGENDIAN
 # endif
-#endif
-
-/* Enable large inode numbers on Mac OS X 10.5.  */
-#ifndef _DARWIN_USE_64_BIT_INODE
-# define _DARWIN_USE_64_BIT_INODE 1
 #endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
