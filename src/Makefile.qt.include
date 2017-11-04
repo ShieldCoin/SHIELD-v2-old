@@ -69,6 +69,7 @@ QT_MOC = \
 QT_QRC_CPP = qt/qrc_bitcoin.cpp
 QT_QRC = qt/bitcoin.qrc
 
+
 BITCOIN_QT_H = \
   qt/aboutdialog.h \
   qt/addressbookpage.h \
@@ -211,6 +212,47 @@ RES_IMAGES = \
   qt/res/images/wallet_bgcoin.png \
   qt/res/images/wallet_bgcoin_testnet.png
 
+RES_STYLE = qt/res/qdarkstyle/rc/branch_closed.png \
+            qt/res/qdarkstyle/rc/branch_open-on.png \
+            qt/res/qdarkstyle/rc/branch_open.png \
+            qt/res/qdarkstyle/rc/checkbox_checked.png \
+            qt/res/qdarkstyle/rc/checkbox_checked_disabled.png \
+            qt/res/qdarkstyle/rc/checkbox_checked_focus.png \
+            qt/res/qdarkstyle/rc/checkbox_indeterminate.png \
+            qt/res/qdarkstyle/rc/checkbox_indeterminate_disabled.png \
+            qt/res/qdarkstyle/rc/checkbox_indeterminate_focus.png \
+            qt/res/qdarkstyle/rc/checkbox_unchecked.png \
+            qt/res/qdarkstyle/rc/checkbox_unchecked_disabled.png \
+            qt/res/qdarkstyle/rc/checkbox_unchecked_focus.png \
+            qt/res/qdarkstyle/rc/close-hover.png \
+            qt/res/qdarkstyle/rc/close-pressed.png \
+            qt/res/qdarkstyle/rc/close.png \
+            qt/res/qdarkstyle/rc/down_arrow.png \
+            qt/res/qdarkstyle/rc/down_arrow_disabled.png \
+            qt/res/qdarkstyle/rc/Hmovetoolbar.png \
+            qt/res/qdarkstyle/rc/Hsepartoolbar.png \
+            qt/res/qdarkstyle/rc/left_arrow.png \
+            qt/res/qdarkstyle/rc/left_arrow_disabled.png \
+            qt/res/qdarkstyle/rc/radio_checked.png \
+            qt/res/qdarkstyle/rc/radio_checked_disabled.png \
+            qt/res/qdarkstyle/rc/radio_checked_focus.png \
+            qt/res/qdarkstyle/rc/radio_unchecked.png \
+            qt/res/qdarkstyle/rc/radio_unchecked_disabled.png \
+            qt/res/qdarkstyle/rc/radio_unchecked_focus.png \
+            qt/res/qdarkstyle/rc/right_arrow.png \
+            qt/res/qdarkstyle/rc/right_arrow_disabled.png \
+            qt/res/qdarkstyle/rc/sizegrip.png \
+            qt/res/qdarkstyle/rc/stylesheet-branch-end.png \
+            qt/res/qdarkstyle/rc/stylesheet-branch-more.png \
+            qt/res/qdarkstyle/rc/stylesheet-vline.png \
+            qt/res/qdarkstyle/rc/transparent.png \
+            qt/res/qdarkstyle/rc/undock.png \
+            qt/res/qdarkstyle/rc/up_arrow.png \
+            qt/res/qdarkstyle/rc/up_arrow_disabled.png \
+            qt/res/qdarkstyle/rc/Vmovetoolbar.png \
+            qt/res/qdarkstyle/rc/Vsepartoolbar.png \
+            qt/res/qdarkstyle/style.qss
+
 RES_MOVIES = $(wildcard qt/res/movies/spinner-*.png)
 
 BITCOIN_RC = qt/res/bitcoin-qt-res.rc
@@ -222,7 +264,7 @@ qt_libbitcoinqt_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
 
 qt_libbitcoinqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
-  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES)
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_QSS) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_STYLE) $(RES_MOVIES)
 
 nodist_qt_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
   $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
@@ -275,13 +317,14 @@ translate: qt/bitcoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_CPP)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts qt/locale/bitcoin_en.ts
 
+
 $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	@test -f $(RCC)
 	@test -f $(@D)/$(<F) || cp -f $< $(@D)
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name bitcoin_locale $(@D)/$(<F) | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_STYLE) $(RES_MOVIES) $(PROTOBUF_H) $(QT_QSS)
 	@test -f $(RCC)
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name bitcoin $< | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@

@@ -196,7 +196,8 @@ QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Wno-ignored-qu
 DEPENDPATH += src src/json src/qt
 
 RESOURCES += \
-    src/qt/bitcoin.qrc
+    src/qt/bitcoin.qrc \
+    src/qt/res/qdarkstyle/style.qrc
 
 contains(USE_QRCODE, 1) {
     HEADERS += src/qt/qrcodedialog.h

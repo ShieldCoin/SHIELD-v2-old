@@ -4,7 +4,7 @@
         <file alias="address-book">res/icons/address-book.png</file>
         <file alias="quit">res/icons/quit.png</file>
         <file alias="send">res/icons/send.png</file>
-		<file alias="block">res/icons/block.png</file>
+        <file alias="block">res/icons/block.png</file>
         <file alias="toolbar">res/icons/toolbar_SHIELD.png</file>
         <file alias="connect_0">res/icons/connect0_16.png</file>
         <file alias="connect_1">res/icons/connect1_16.png</file>
@@ -27,9 +27,9 @@
         <file alias="toolbar_testnet">res/icons/toolbar_SHIELD_testnet.png</file>
         <file alias="edit">res/icons/edit.png</file>
         <file alias="history">res/icons/history.png</file>
-		<file alias="radio">res/icons/radio.png</file>
+        <file alias="radio">res/icons/radio.png</file>
         <file alias="overview">res/icons/overview.png</file>
-		<file alias="social">res/icons/chat.png</file>
+        <file alias="social">res/icons/chat.png</file>
         <file alias="export">res/icons/export.png</file>
         <file alias="synced">res/icons/synced.png</file>
         <file alias="remove">res/icons/remove.png</file>
@@ -93,5 +93,47 @@
     <qresource prefix="/translations">
         <file alias="en">locale/bitcoin_en.ts</file>
         <file alias="ru">locale/bitcoin_ru.ts</file>
+    </qresource>
+    <qresource prefix="/style">
+        <file>res/qdarkstyle/style.qss</file>
+        <file>res/qdarkstyle/rc/branch_closed.png</file>
+        <file>res/qdarkstyle/rc/branch_open-on.png</file>
+        <file>res/qdarkstyle/rc/branch_open.png</file>
+        <file>res/qdarkstyle/rc/checkbox_checked.png</file>
+        <file>res/qdarkstyle/rc/checkbox_checked_disabled.png</file>
+        <file>res/qdarkstyle/rc/checkbox_checked_focus.png</file>
+        <file>res/qdarkstyle/rc/checkbox_indeterminate.png</file>
+        <file>res/qdarkstyle/rc/checkbox_indeterminate_disabled.png</file>
+        <file>res/qdarkstyle/rc/checkbox_indeterminate_focus.png</file>
+        <file>res/qdarkstyle/rc/checkbox_unchecked.png</file>
+        <file>res/qdarkstyle/rc/checkbox_unchecked_disabled.png</file>
+        <file>res/qdarkstyle/rc/checkbox_unchecked_focus.png</file>
+        <file>res/qdarkstyle/rc/close-hover.png</file>
+        <file>res/qdarkstyle/rc/close-pressed.png</file>
+        <file>res/qdarkstyle/rc/close.png</file>
+        <file>res/qdarkstyle/rc/down_arrow.png</file>
+        <file>res/qdarkstyle/rc/down_arrow_disabled.png</file>
+        <file>res/qdarkstyle/rc/Hmovetoolbar.png</file>
+        <file>res/qdarkstyle/rc/Hsepartoolbar.png</file>
+        <file>res/qdarkstyle/rc/left_arrow.png</file>
+        <file>res/qdarkstyle/rc/left_arrow_disabled.png</file>
+        <file>res/qdarkstyle/rc/radio_checked.png</file>
+        <file>res/qdarkstyle/rc/radio_checked_disabled.png</file>
+        <file>res/qdarkstyle/rc/radio_checked_focus.png</file>
+        <file>res/qdarkstyle/rc/radio_unchecked.png</file>
+        <file>res/qdarkstyle/rc/radio_unchecked_disabled.png</file>
+        <file>res/qdarkstyle/rc/radio_unchecked_focus.png</file>
+        <file>res/qdarkstyle/rc/right_arrow.png</file>
+        <file>res/qdarkstyle/rc/right_arrow_disabled.png</file>
+        <file>res/qdarkstyle/rc/sizegrip.png</file>
+        <file>res/qdarkstyle/rc/stylesheet-branch-end.png</file>
+        <file>res/qdarkstyle/rc/stylesheet-branch-more.png</file>
+        <file>res/qdarkstyle/rc/stylesheet-vline.png</file>
+        <file>res/qdarkstyle/rc/transparent.png</file>
+        <file>res/qdarkstyle/rc/undock.png</file>
+        <file>res/qdarkstyle/rc/up_arrow.png</file>
+        <file>res/qdarkstyle/rc/up_arrow_disabled.png</file>
+        <file>res/qdarkstyle/rc/Vmovetoolbar.png</file>
+        <file>res/qdarkstyle/rc/Vsepartoolbar.png</file>
     </qresource>
 </RCC>
