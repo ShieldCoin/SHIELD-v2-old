@@ -232,6 +232,7 @@ TransactionTableModel::TransactionTableModel(CWallet* wallet, WalletModel *paren
     timer->start(MODEL_UPDATE_DELAY);
 
     connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
+
 }
 
 TransactionTableModel::~TransactionTableModel()

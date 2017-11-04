@@ -105,8 +105,10 @@ bool CDBEnv::Open(boost::filesystem::path pathEnv_)
                      DB_RECOVER    |
                      nEnvFlags,
                      S_IRUSR | S_IWUSR);
-    if (ret != 0)
+    if (ret != 0){
+        dbenv.close(0);
         return error("CDB() : error %s (%d) opening database environment", DbEnv::strerror(ret), ret);
+    }
 
     fDbEnvInit = true;
     fMockDb = false;

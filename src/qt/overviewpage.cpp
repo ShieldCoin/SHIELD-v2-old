@@ -152,7 +152,6 @@ void OverviewPage::setNumTransactions(int count)
 
 void OverviewPage::setTestnetLogo()
 {
-    ui->label_wallet_bgcoin->setPixmap(QPixmap(QString::fromUtf8(":/images/wallet_bgcoin_testnet")));
 }
 
 /*
