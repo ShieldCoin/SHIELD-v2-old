@@ -45,7 +45,7 @@ fi
 
 sudo apt-get -y install software-properties-common
 
-sudo add-apt-repository -y ppa:bitcoin/bitcoin
+#sudo add-apt-repository -y ppa:bitcoin/bitcoin
 
 sudo apt-get update
 
@@ -54,7 +54,7 @@ sudo apt-get -y install libcanberra-gtk-module
 # Dont need to check if bd is already installed, will override or pass by
 #results=$(find /usr/ -name libdb_cxx.so)
 #if [ -z $results ]; then
-sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
+#sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
 #else
 #grep DB_VERSION_STRING $(find /usr/ -name db.h)
 #echo "BerkeleyDb will not be installed its already there...."
@@ -128,7 +128,7 @@ fi
 
 #// Clone files from repo, Permissions and make
 
-git clone https://github.com/ShieldCoin/shield
+git clone https://github.com/ShieldCoin/SHIELD
 cd SHIELD
 sudo sh autogen.sh
 chmod 777 ~/SHIELD/share/genbuild.sh
@@ -211,35 +211,37 @@ echo "rpcuser="$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 26 ; echo '') '\
 
 #// Extract http link, download blockchain and install it.
 
-echo -n "Do you wish to download the complete SHIELD Blockchain (y/n)?"
-read answer
-if echo "$answer" | grep -iq "^y" ;then
-    sudo rm SHIELD-Blockchain*.zip
-    until [ -e SHIELD*.zip ]
-    do
-    sleep 1
-    echo "wget" $(lynx --dump --listonly https://ShieldCoin.de | grep -o "https:*.*zip") > link.sh
-    sleep 1
-    sh link.sh
-    done
-    
-    #checksum
-    sudo rm blockchain
-    wget https://www.ShieldCoin.github.io/checksums/blockchain
-    md5sum SHIELD-Blockchain*.zip > md5
-    checksum="$(grep $(cat md5) blockchain)"
-    if [ -z "$checksum" ];
-    then
-    echo "Warning: MD5 is not matching"
-    else
-    echo "MD5 is matching...Success"
-    fi
-    
-    unzip -o SHIELD-Blockchain*.zip -d ~/.SHIELD
-    sudo rm SHIELD-Blockchain*.zip
-else
- echo "Blockchain will not be installed sync may be long"   
-fi
+
+echo "You can download the partially presynced blockchain from: https://github.com/ShieldCoin/SHIELD/releases/tag/b385"
+#echo -n "Do you wish to download the complete SHIELD Blockchain (y/n)?"
+#read answer
+#if echo "$answer" | grep -iq "^y" ;then
+#    sudo rm SHIELD-Blockchain*.zip
+#    until [ -e SHIELD*.zip ]
+#    do
+#    sleep 1
+#    echo "wget" $(lynx --dump --listonly https://ShieldCoin.de | grep -o "https:*.*zip") > link.sh
+#    sleep 1
+#    sh link.sh
+#    done
+#    
+#    #checksum
+#    sudo rm blockchain
+#    wget https://www.ShieldCoin.github.io/checksums/blockchain
+#    md5sum SHIELD-Blockchain*.zip > md5
+#    checksum="$(grep $(cat md5) blockchain)"
+#    if [ -z "$checksum" ];
+#    then
+#    echo "Warning: MD5 is not matching"
+#    else
+#    echo "MD5 is matching...Success"
+#    fi
+#    
+#    unzip -o SHIELD-Blockchain*.zip -d ~/.SHIELD
+#    sudo rm SHIELD-Blockchain*.zip
+#else
+# echo "Blockchain will not be installed sync may be long"   
+#fi
 
 # Create Icon on Desktop and in menu
 
