@@ -105,3 +105,4 @@ qa/pull-tester/build-tests.sh
 
 /doc/doxygen
 
+.vscode/settings.json
