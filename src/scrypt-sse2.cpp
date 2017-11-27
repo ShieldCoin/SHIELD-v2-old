@@ -37,6 +37,10 @@
 
 #include <emmintrin.h>
 
+#ifdef __FreeBSD__
+#include <sys/endian.h>
+#endif
+
 static inline void xor_salsa8_sse2(__m128i B[4], const __m128i Bx[4])
 {
 	__m128i X0, X1, X2, X3;
