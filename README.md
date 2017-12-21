@@ -207,8 +207,10 @@ Using SHIELD on Windows
 7. Reame the file to SHIELD.conf
 8. Start the SHIELD-qt program.
 9. Open up SHIELD-qt console and run ```getinfo``` (or ```getmininginfo```) to verify settings.
-(Optional)
+
+(Optional)<br>
 Add tor nodes using: https://github.com/ShieldCoin/SHIELD/wiki/Using-Tor-qt-nodes
+
 **Note:** You must re-start the wallet after making changes to ShieldCoin.conf.
 [How To build on Windows](https://bitcointalk.org/index.php?topic=149479.0)
 
