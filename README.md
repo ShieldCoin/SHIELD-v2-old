@@ -198,16 +198,17 @@ To use a specific mining algorithm use the `algo` switch in your configuration f
 Using SHIELD on Windows
 -------------
 
-1. Download the pre-compiled software. (only from official ShieldCoin site)
+1. Download the pre-compiled software. (only from official SHIELD site)
 2. Install
-3. In windows file explorer, open c:\Users\XXX\AppData\Roaming\ShieldCoin (be sure to change XXX to your windows user)
+3. In windows file explorer, open c:\Users\XXX\AppData\Roaming\SHIELD (be sure to change XXX to your windows user)
 4. Right click and create a new file SHIELD.txt
 5. Edit the file to have contents above (see instructions above for options)
 6. Save and close the file
-7. Reame the file to ShieldCoin.conf
+7. Reame the file to SHIELD.conf
 8. Start the SHIELD-qt program.
 9. Open up SHIELD-qt console and run ```getinfo``` (or ```getmininginfo```) to verify settings.
-
+(Optional)
+Add tor nodes using: https://github.com/ShieldCoin/SHIELD/wiki/Using-Tor-qt-nodes
 **Note:** You must re-start the wallet after making changes to ShieldCoin.conf.
 [How To build on Windows](https://bitcointalk.org/index.php?topic=149479.0)
 
