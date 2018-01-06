@@ -2,7 +2,7 @@
 #define WALLETMODEL_H
 
 #include <QObject>
-
+#include<vector>
 #include "allocators.h" /* for SecureString */
 
 class OptionsModel;
