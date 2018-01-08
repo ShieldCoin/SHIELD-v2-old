@@ -133,7 +133,9 @@ To compile on Mac (OSX El Capitan, but test compiled on Mountain Lion v10.8):
     
 5. Install the other required items:
 
-    `brew install protobuf boost miniupnpc openssl qrencode berkeley-db4 automake`
+    `brew install protobuf boost@1.57 miniupnpc openssl qrencode berkeley-db4 automake`
+    
+    `brew link boost@1.57 --force`
     
 6. Download the wallet source and build:
 
