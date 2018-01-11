@@ -200,7 +200,8 @@ To use a specific mining algorithm use the `algo` switch in your configuration f
 Using SHIELD on Windows
 -------------
 
-1. Download the pre-compiled software. (only from official SHIELD site)
+1. Download the pre-compiled software. (only from official SHIELD site) 
+[https://shieldcurrency.com/](https://shieldcurrency.com)
 2. Install
 3. In windows file explorer, open c:\Users\XXX\AppData\Roaming\SHIELD (be sure to change XXX to your windows user)
 4. Right click and create a new file SHIELD.txt
