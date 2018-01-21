@@ -7,9 +7,10 @@ Specifications:
 * Symbol: XSH
 * PoW (proof of work)
 * Algorithms: scrypt, x17, Lyra2rev2, myr-groestl, & blake2s
-* Blocktime: 15 seconds -
-* RPC port: 20103 -
-* P2P port: 21103 -
+* Blocktime: 45 seconds 
+* RPC port: 20103 
+* P2P port: 21103 
+* total reward cap: ~660 Million
 * Blockreward: 
   * Block 0 to 14,000 : 8,000 coins
   * 14,000 to 28,000 : 4,000 coins
@@ -21,12 +22,7 @@ Specifications:
   * 714,000 to 2,124,000: 62 coins
   * 2,124,000 to 4,248,000: 32 coins
 
-Total Supply
-------------
-
-Approximately total reward cap: ~660 Million -
-
-Binary (pre-compiled) wallets are available on all platforms at [https://ShieldCoin.github.io](https://ShieldCoin.github.io/#wallets)
+Binary (pre-compiled) wallets are available on all platforms at [https://ShieldCoin.github.io](https://www.shieldcurrency.com/#wallets)
 
 Compiling Linux Wallet on Ubuntu/Debian (faster) 
 ----------------------
