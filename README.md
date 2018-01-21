@@ -7,7 +7,7 @@ Specifications:
 * Symbol: XSH
 * PoW (proof of work)
 * Algorithms: scrypt, x17, Lyra2rev2, myr-groestl, & blake2s
-* Blocktime: 15 seconds -
+* Blocktime: 45 seconds -
 * RPC port: 20103 -
 * P2P port: 21103 -
 * Blockreward: 
