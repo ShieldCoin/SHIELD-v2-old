@@ -161,7 +161,9 @@ If you are building the .dmg (by running 'mac deploy') you may need to run these
 Note: This may be pointing to an version of mysql that you do not have installed (like mysql55) - Alternatively, you may be able to remove the library from the sqldrivers folder.
 
     install_name_tool -change /opt/local/lib/mysql55/mysql/libmysqlclient.18.dylib /usr/local/Cellar/mysql/5.7.12/lib/libmysqlclient.20.dylib libqsqlmysql.dylib
-    
+
+Note: You may also run into issues when using `macdeployqtplus` to create the bundle, and the library will not bundle all of the boost dylibs. It's highly recommended to use the functions provided inside of [dylib-fixes.sh](/building/mac/dylib-fixes.sh)
+
 Trying to build .dmg on 10.8? You will need to run this:
     
     export CFLAGS=-Qunused-arguments
