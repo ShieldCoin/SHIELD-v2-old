@@ -839,7 +839,7 @@ public:
     iterator insert(iterator it, const char& x=char()) { return vch.insert(it, x); }
     void insert(iterator it, size_type n, const char& x) { vch.insert(it, n, x); }
 
-#ifndef MAC_OSX
+#if !defined(MAC_OSX) && !defined(__FreeBSD__)
     void insert(iterator it, const_iterator first, const_iterator last)
     {
         assert(last - first >= 0);
@@ -853,6 +853,7 @@ public:
             vch.insert(it, first, last);
     }
 #endif
+
     void insert(iterator it, std::vector<char>::const_iterator first, std::vector<char>::const_iterator last)
     {
         assert(last - first >= 0);
