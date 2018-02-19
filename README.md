@@ -7,9 +7,10 @@ Specifications:
 * Symbol: XSH
 * PoW (proof of work)
 * Algorithms: scrypt, x17, Lyra2rev2, myr-groestl, & blake2s
-* Blocktime: 15 seconds -
-* RPC port: 20103 -
-* P2P port: 21103 -
+* Blocktime: 45 seconds 
+* RPC port: 20103 
+* P2P port: 21103 
+* total reward cap: ~660 Million
 * Blockreward: 
   * Block 0 to 14,000 : 8,000 coins
   * 14,000 to 28,000 : 4,000 coins
@@ -21,12 +22,7 @@ Specifications:
   * 714,000 to 2,124,000: 62 coins
   * 2,124,000 to 4,248,000: 32 coins
 
-Total Supply
-------------
-
-Approximately total reward cap: ~660 Million -
-
-Binary (pre-compiled) wallets are available on all platforms at [https://ShieldCoin.github.io](https://ShieldCoin.github.io/#wallets)
+Binary (pre-compiled) wallets are available on all platforms at [https://ShieldCoin.github.io](https://www.shieldcurrency.com/#wallets)
 
 Compiling Linux Wallet on Ubuntu/Debian (faster) 
 ----------------------
@@ -133,7 +129,9 @@ To compile on Mac (OSX El Capitan, but test compiled on Mountain Lion v10.8):
     
 5. Install the other required items:
 
-    `brew install protobuf boost miniupnpc openssl qrencode berkeley-db4 automake`
+    `brew install protobuf boost@1.57 miniupnpc openssl qrencode berkeley-db4 automake`
+    
+    `brew link boost@1.57 --force`
     
 6. Download the wallet source and build:
 
@@ -163,7 +161,9 @@ If you are building the .dmg (by running 'mac deploy') you may need to run these
 Note: This may be pointing to an version of mysql that you do not have installed (like mysql55) - Alternatively, you may be able to remove the library from the sqldrivers folder.
 
     install_name_tool -change /opt/local/lib/mysql55/mysql/libmysqlclient.18.dylib /usr/local/Cellar/mysql/5.7.12/lib/libmysqlclient.20.dylib libqsqlmysql.dylib
-    
+
+Note: You may also run into issues when using `macdeployqtplus` to create the bundle, and the library will not bundle all of the boost dylibs. It's highly recommended to use the functions provided inside of [dylib-fixes.sh](/building/mac/dylib-fixes.sh)
+
 Trying to build .dmg on 10.8? You will need to run this:
     
     export CFLAGS=-Qunused-arguments
@@ -198,7 +198,8 @@ To use a specific mining algorithm use the `algo` switch in your configuration f
 Using SHIELD on Windows
 -------------
 
-1. Download the pre-compiled software. (only from official SHIELD site)
+1. Download the pre-compiled software. (only from official SHIELD site) 
+[https://shieldcurrency.com/](https://shieldcurrency.com)
 2. Install
 3. In windows file explorer, open c:\Users\XXX\AppData\Roaming\SHIELD (be sure to change XXX to your windows user)
 4. Right click and create a new file SHIELD.txt
