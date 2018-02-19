@@ -465,21 +465,23 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn)
 
         if ( !fHeadless )
         {
-		    // If default receiving address gets used, replace it with a new one
-		    CScript scriptDefaultKey;
-		    scriptDefaultKey.SetDestination(vchDefaultKey.GetID());
-		    BOOST_FOREACH(const CTxOut& txout, wtx.vout)
-		    {
-		        if (txout.scriptPubKey == scriptDefaultKey)
-		        {
-		            CPubKey newDefaultKey;
-		            if (GetKeyFromPool(newDefaultKey, false))
-		            {
-		                SetDefaultKey(newDefaultKey);
-		                SetAddressBookName(vchDefaultKey.GetID(), "");
-		            }
-		        }
-		    }
+            // If default receiving address gets used, replace it with a new one
+            if (vchDefaultKey.IsValid()) {
+                CScript scriptDefaultKey;
+                scriptDefaultKey.SetDestination(vchDefaultKey.GetID());
+                BOOST_FOREACH(const CTxOut& txout, wtx.vout)
+                {
+                    if (txout.scriptPubKey == scriptDefaultKey)
+                    {
+                        CPubKey newDefaultKey;
+                        if (GetKeyFromPool(newDefaultKey, false))
+                        {
+                            SetDefaultKey(newDefaultKey);
+                            SetAddressBookName(vchDefaultKey.GetID(), "");
+                        }
+                    }
+                }
+            }
 		}
 		
         // since AddToWallet is called directly for self-originating transactions, check for consumption of own coins
@@ -1291,8 +1293,8 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     //  post-backup change.
 
                     // Reserve a new key pair from key pool
-                    CPubKey vchPubKey = reservekey.GetReservedKey();
-                    // assert(mapKeys.count(vchPubKey));
+                    CPubKey vchPubKey;
+                    assert(reservekey.GetReservedKey(vchPubKey)); // should never fail, as we just unlocked
 
                     // Fill a vout to ourself
                     // TODO: pass in scriptChange instead of reservekey so
@@ -2104,7 +2106,7 @@ void CWallet::DisableTransaction(const CTransaction &tx)
     }
 }
 
-CPubKey CReserveKey::GetReservedKey()
+bool CReserveKey::GetReservedKey(CPubKey& pubkey)
 {
     if (nIndex == -1)
     {
@@ -2112,14 +2114,17 @@ CPubKey CReserveKey::GetReservedKey()
         pwallet->ReserveKeyFromKeyPool(nIndex, keypool);
         if (nIndex != -1)
             vchPubKey = keypool.vchPubKey;
-        else
-        {
-            printf("CReserveKey::GetReservedKey(): Warning: Using default key instead of a new key, top up your keypool!");
-            vchPubKey = pwallet->vchDefaultKey;
+        else {
+            if (pwallet->vchDefaultKey.IsValid()) {
+                printf("CReserveKey::GetReservedKey(): Warning: Using default key instead of a new key, top up your keypool!");
+                vchPubKey = pwallet->vchDefaultKey;
+            } else
+                return false;
         }
     }
     assert(vchPubKey.IsValid());
-    return vchPubKey;
+    pubkey = vchPubKey;
+    return true;
 }
 
 void CReserveKey::KeepKey()
