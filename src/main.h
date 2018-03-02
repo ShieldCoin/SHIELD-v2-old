@@ -38,7 +38,10 @@ static const int64 MIN_TX_FEE = 5 * CENT;
 static const int64 MIN_RELAY_TX_FEE = 5 * CENT;
 static const int64 MAX_MONEY = 662200000 * COIN; //
 static const int DISABLE_POS_BLOCK = 1;
-
+/** Dust Soft Limit, allowed with additional fee per output */
+static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 B
+/** Dust Hard Limit, ignored as wallet inputs (mininput default) */
+static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 B mininput
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
@@ -86,6 +89,7 @@ extern std::map<uint256, CBlock*> mapOrphanBlocks;
 
 // Settings
 extern int64 nTransactionFee;
+extern int64 nMinimumInputValue;
 
 extern int miningAlgo;
 

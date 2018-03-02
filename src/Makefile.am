@@ -62,6 +62,7 @@ BITCOIN_CORE_H = \
   bitcoinrpc.h \
   checkpoints.h \
   clientversion.h \
+  coincontrol.h \
   compat.h \
   crypter.h \
   sph_groestl.h \

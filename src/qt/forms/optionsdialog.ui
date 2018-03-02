@@ -1676,6 +1676,16 @@ max-width: 100px;</string>
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="coinControlFeatures">
+         <property name="toolTip">
+          <string>Whether to show coin control features or not.</string>
+         </property>
+         <property name="text">
+          <string>Display coin &amp;control features (experts only!)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="displayAddresses">
          <property name="toolTip">
           <string>Whether to show SHIELD addresses in the transaction list or not.</string>

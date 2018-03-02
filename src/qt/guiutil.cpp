@@ -184,6 +184,12 @@ void copyEntryData(QAbstractItemView *view, int column, int role)
     }
 }
 
+void setClipboard(const QString& str)
+{
+    QApplication::clipboard()->setText(str, QClipboard::Clipboard);
+    QApplication::clipboard()->setText(str, QClipboard::Selection);
+}
+
 QString getSaveFileName(QWidget *parent, const QString &caption,
                                  const QString &dir,
                                  const QString &filter,
@@ -430,6 +436,60 @@ bool SetStartOnSystemStartup(bool fAutoStart)
     }
     return true;
 }
+
+#elif defined(Q_OS_MAC)
+// based on: https://github.com/Mozketo/LaunchAtLoginController/blob/master/LaunchAtLoginController.m
+
+#include <CoreFoundation/CoreFoundation.h>
+#include <CoreServices/CoreServices.h>
+
+LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl);
+LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl)
+{
+    // loop through the list of startup items and try to find the bitcoin app
+    CFArrayRef listSnapshot = LSSharedFileListCopySnapshot(list, NULL);
+    for(int i = 0; i < CFArrayGetCount(listSnapshot); i++) {
+        LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(listSnapshot, i);
+        UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+        CFURLRef currentItemURL = NULL;
+        LSSharedFileListItemResolve(item, resolutionFlags, &currentItemURL, NULL);
+        if(currentItemURL && CFEqual(currentItemURL, findUrl)) {
+            // found
+            CFRelease(currentItemURL);
+            return item;
+        }
+        if(currentItemURL) {
+            CFRelease(currentItemURL);
+        }
+    }
+    return NULL;
+}
+
+bool GetStartOnSystemStartup()
+{
+    CFURLRef bitcoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, bitcoinAppUrl);
+    return !!foundItem; // return boolified object
+}
+
+bool SetStartOnSystemStartup(bool fAutoStart)
+{
+    CFURLRef bitcoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, bitcoinAppUrl);
+
+    if(fAutoStart && !foundItem) {
+        // add bitcoin app to startup item list
+        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, bitcoinAppUrl, NULL, NULL);
+    }
+    else if(!fAutoStart && foundItem) {
+        // remove item
+        LSSharedFileListItemRemove(loginItems, foundItem);
+    }
+    return true;
+}
+
 #else
 
 // TODO: OSX startup stuff; see:

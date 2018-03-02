@@ -20,7 +20,8 @@ QT_FORMS_UI = \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/chatwindow.ui \
   qt/forms/transactiondescdialog.ui \
-  qt/forms/blockbrowser.ui 
+  qt/forms/blockbrowser.ui \
+  qt/forms/coincontroldialog.ui
 
 QT_MOC_CPP = \
   qt/moc_aboutdialog.cpp \
@@ -82,6 +83,8 @@ BITCOIN_QT_H = \
   qt/blockbrowser.h \
   qt/clientmodel.h \
   qt/csvmodelwriter.h \
+  qt/coincontroldialog.h \
+  qt/coincontroltreewidget.h \
   qt/editaddressdialog.h \
   qt/guiconstants.h \
   qt/guiutil.h \
@@ -168,6 +171,8 @@ BITCOIN_QT_CPP = \
   qt/blockbrowser.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
+  qt/coincontroldialog.cpp \
+  qt/coincontroltreewidget.cpp \
   qt/chatwindow.cpp \
   qt/serveur.cpp \
   qt/guiutil.cpp \

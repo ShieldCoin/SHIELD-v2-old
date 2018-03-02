@@ -2,7 +2,8 @@
 #define WALLETMODEL_H
 
 #include <QObject>
-#include<vector>
+#include <vector>
+#include <map>
 #include "allocators.h" /* for SecureString */
 
 class OptionsModel;
@@ -63,7 +64,7 @@ public:
     AddressTableModel *getAddressTableModel();
     TransactionTableModel *getTransactionTableModel();
 
-    qint64 getBalance() const;
+    qint64 getBalance(const CCoinControl *coinControl=NULL) const;
     qint64 getUnconfirmedBalance() const;
     qint64 getImmatureBalance() const;
     int getNumTransactions() const;
@@ -75,7 +76,7 @@ public:
     // Return status record for SendCoins, contains error id + information
     struct SendCoinsReturn
     {
-        SendCoinsReturn(StatusCode status,
+        SendCoinsReturn(StatusCode status=Aborted,
                          qint64 fee=0,
                          QString hex=QString()):
             status(status), fee(fee), hex(hex) {}
@@ -85,7 +86,7 @@ public:
     };
 
     // Send coins to a list of recipients
-    SendCoinsReturn sendCoins(const QList<SendCoinsRecipient> &recipients);
+    SendCoinsReturn sendCoins(const QList<SendCoinsRecipient> &recipients, const CCoinControl *coinControl=NULL);
 
     // Wallet encryption
     bool setWalletEncrypted(bool encrypted, const SecureString &passphrase);

@@ -252,7 +252,7 @@ std::string HelpMessage()
         "  -paytxfee=<amt>        " + _("Fee per KB to add to transactions you send") + "\n" +
 		(!fHeadless ?
         ("  -server                "+ _("Accept command line and JSON-RPC commands") + "\n") : "") +
-
+        "  -mininput=<amt>        " + _("When creating transactions, ignore inputs with value less than this (default: 0.0001)") + "\n" +
 #if !defined(WIN32)
         (fHeadless ?
         ("  -daemon                "+ _("Run in the background as a daemon and accept commands") + "\n") : "") +
@@ -452,6 +452,12 @@ bool AppInit2()
             InitWarning(_("Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction."));
     }
 
+    if (mapArgs.count("-mininput"))
+    {
+        if (!ParseMoney(mapArgs["-mininput"], nMinimumInputValue))
+            return InitError(strprintf(_("Invalid amount for -mininput=<amount>: '%s'"), mapArgs["-mininput"].c_str()));
+    }
+    
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 
     std::string strDataDir = GetDataDir().string();

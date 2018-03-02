@@ -84,6 +84,7 @@ int miningAlgo = ALGO_SCRYPT;
 // Settings
 int64 nTransactionFee = MIN_TX_FEE;
 
+int64 nMinimumInputValue = DUST_HARD_LIMIT;
 //////////////////////////////////////////////////////////////////////////////
 //
 // dispatching functions
