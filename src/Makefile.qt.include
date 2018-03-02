@@ -57,7 +57,9 @@ QT_MOC_CPP = \
   qt/moc_transactiontablemodel.cpp \
   qt/moc_transactionview.cpp \
   qt/moc_qrcodedialog.cpp \
-  qt/moc_walletmodel.cpp
+  qt/moc_walletmodel.cpp \
+  qt/moc_coincontroldialog.cpp \
+  qt/moc_coincontroltreewidget.cpp
 
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
