@@ -995,7 +995,12 @@ static const char *strDNSSeed[][2] = { //TODO: change
     {"45.32.46.75", "45.32.36.108"},
     {"45.77.64.157", "199.247.6.151"},
     {"207.148.15.117", "198.13.33.179"},
-    {"207.148.73.24", "electrum-1.shieldcurrency.com"} //electrum placeholder
+    {"207.148.73.24", "electrum-1.shieldcurrency.com"},
+    {"oj4k7gr3e6a4zgvc.onion", "7woi5h3mn5t73rc3.onion"},
+    {"cx4ym6mbf6rw7nbd.onion", "va7aht25p4davcp7.onion"},
+    {"w4zigl6cpm3viocu.onion", "pv6wdgmopellnhwq.onion"},
+    {"vlbkobjzqdz4jtav.onion", "w3z6kpzdtxbphrwy.onion"},
+    {"466ll6hop2ihx43f.onion", "m5wkhjmsu6tno7vg.onion"}
 };
 
 void ThreadDNSAddressSeed(void* parg)
