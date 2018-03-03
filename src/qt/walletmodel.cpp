@@ -37,7 +37,7 @@ WalletModel::~WalletModel()
 }
 
 qint64 WalletModel::getBalance(const CCoinControl *coinControl) const
- {
+{
     if (coinControl)
     {
         int64 nBalance = 0;
@@ -50,7 +50,7 @@ qint64 WalletModel::getBalance(const CCoinControl *coinControl) const
     }
     
     return wallet->GetBalance();
- }
+}
 
 qint64 WalletModel::getUnconfirmedBalance() const
 {
@@ -67,6 +67,8 @@ int WalletModel::getNumTransactions() const
     int numTransactions = 0;
     {
         LOCK(wallet->cs_wallet);
+        // the size of mapWallet contains the number of unique transaction IDs
+        // (e.g. payments to yourself generate 2 transactions, but both share the same transaction ID)
         numTransactions = wallet->mapWallet.size();
     }
     return numTransactions;
@@ -192,7 +194,8 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         CWalletTx wtx;
         CReserveKey keyChange(wallet);
         int64 nFeeRequired = 0;
-        bool fCreated = wallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired);
+        //std::string strFailReason;
+        bool fCreated = wallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired,coinControl);
 
         if(!fCreated)
         {
@@ -200,6 +203,8 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
             {
                 return SendCoinsReturn(AmountWithFeeExceedsBalance, nFeeRequired);
             }
+            // emit message(tr("Send Coins"), QString::fromStdString(strFailReason),
+            //              CClientUIInterface::MSG_ERROR);
             return TransactionCreationFailed;
         }
         if(!uiInterface.ThreadSafeAskFee(nFeeRequired, tr("Sending...").toStdString()))
@@ -280,9 +285,9 @@ bool WalletModel::setWalletEncrypted(bool encrypted, const SecureString &passphr
     }
 }
 
-bool WalletModel::setWalletLocked(bool locked, const SecureString &passPhrase, bool unlockForMintingOnly)
+bool WalletModel::setWalletLocked(bool locked, const SecureString &passPhrase)
 {
-	if(locked)
+    if(locked)
     {
         // Lock
         return wallet->Lock();
@@ -290,10 +295,7 @@ bool WalletModel::setWalletLocked(bool locked, const SecureString &passPhrase, b
     else
     {
         // Unlock
-    	OutputDebugStringF("Unlocking wallet%s\n", (unlockForMintingOnly ? " for minting only" : ""));
-
-        fWalletUnlockMintOnly = unlockForMintingOnly;
-    	return wallet->Unlock(passPhrase);
+        return wallet->Unlock(passPhrase);
     }
 }
 
@@ -393,12 +395,7 @@ void WalletModel::UnlockContext::CopyFrom(const UnlockContext& rhs)
 
 bool WalletModel::getPubKey(const CKeyID &address, CPubKey& vchPubKeyOut) const
 {
-    return wallet->GetPubKey(address, vchPubKeyOut);
-}
-
-CWallet * WalletModel::getWallet()
-{
-    return wallet;
+    return wallet->GetPubKey(address, vchPubKeyOut);   
 }
 
 // returns a list of COutputs from COutPoints

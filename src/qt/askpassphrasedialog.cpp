@@ -141,7 +141,7 @@ void AskPassphraseDialog::accept()
         } break;
     case Unlock:
     case UnlockMinting:
-        if(!model->setWalletLocked(false, oldpass, (mode == UnlockMinting)))
+        if(!model->setWalletLocked(false, oldpass))
         {
             QMessageBox::critical(this, tr("Wallet unlock failed"),
                                   tr("The passphrase entered for the wallet decryption was incorrect."));

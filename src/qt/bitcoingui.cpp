@@ -938,7 +938,7 @@ void BitcoinGUI::setWalletLock(bool fLockForMintingOnly)
 	else if (walletModel->getEncryptionStatus() == WalletModel::Unlocked)
 	{
 		SecureString empty;
-		walletModel->setWalletLocked(true, empty, true);
+		walletModel->setWalletLocked(true, empty);
 	}
 }
 
