@@ -1,12 +1,12 @@
 SHIELD [XSH] Source Code
 ================================
-### Development moved to https://git.shieldx.sh/SHIELD-team/Core-Projects/SHIELD
+### NOTE: This GitHub repo is NOT being maintained, ALL development has moved to https://git.shieldx.sh/SHIELD-team/Core-Projects/SHIELD
 Specifications:
 --------------
 
 * Symbol: XSH
 * PoW (proof of work)
-* Algorithms: scrypt, x17, Lyra2rev2, myr-groestl, & blake2s
+* Algorithms: scrypt, x17, lyra2rev2, myr-groestl, & blake2s
 * Blocktime: 45 seconds 
 * RPC port: 20103 
 * P2P port: 21103 
@@ -22,7 +22,7 @@ Specifications:
   * 714,000 to 2,124,000: 62 coins
   * 2,124,000 to 4,248,000: 32 coins
 
-Binary (pre-compiled) wallets are available on all platforms at [https://ShieldCoin.github.io](https://www.shieldcurrency.com/#wallets)
+Binary (pre-compiled) wallets are available on all platforms [here.](https://www.shieldx.sh/wallets)
 
 Compiling Linux Wallet on Ubuntu/Debian (faster) 
 ----------------------
@@ -198,8 +198,8 @@ To use a specific mining algorithm use the `algo` switch in your configuration f
 Using SHIELD on Windows
 -------------
 
-1. Download the pre-compiled software. (only from official SHIELD site) 
-[https://shieldcurrency.com/](https://shieldcurrency.com)
+1. Download the pre-compiled software (from official SHIELD site 
+[here](https://shieldx.sh) )
 2. Install
 3. In windows file explorer, open c:\Users\XXX\AppData\Roaming\SHIELD (be sure to change XXX to your windows user)
 4. Right click and create a new file SHIELD.txt
@@ -212,7 +212,7 @@ Using SHIELD on Windows
 (Optional)<br>
 Add tor nodes using: https://github.com/ShieldCoin/SHIELD/wiki/Using-Tor-qt-nodes
 
-**Note:** You must re-start the wallet after making changes to ShieldCoin.conf.
+**Note:** You must re-start the wallet after making changes to SHIELD.conf.
 [How To build on Windows](https://bitcointalk.org/index.php?topic=149479.0)
 
 
