@@ -1300,6 +1300,14 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     nChange -= nMoveToFee;
                     nFeeRet += nMoveToFee;
                 }
+                
+                // ppcoin: sub-cent change is moved to fee
+                if (nChange > 0 && nChange < MIN_TXOUT_AMOUNT)
+                {
+                    nFeeRet += nChange;
+                    nChange = 0;
+                }
+
 
                 if (nChange > 0)
                 {
