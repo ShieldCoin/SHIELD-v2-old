@@ -989,18 +989,18 @@ void MapPort()
 // Much thanks To:
 // Nillecram (pool.bilbotel.fr)
 static const char *strDNSSeed[][2] = { //TODO: change
-    {"104.131.33.106", "electrum-1.shieldcurrency.com"},
-    {"188.226.178.216", "209.250.241.56"},
-    {"107.191.46.158", "45.77.230.110"},
-    {"45.32.46.75", "45.32.36.108"},
-    {"45.77.64.157", "199.247.6.151"},
-    {"207.148.15.117", "198.13.33.179"},
-    {"207.148.73.24", "electrum-1.shieldcurrency.com"},
-    {"oj4k7gr3e6a4zgvc.onion", "7woi5h3mn5t73rc3.onion"},
-    {"cx4ym6mbf6rw7nbd.onion", "va7aht25p4davcp7.onion"},
-    {"w4zigl6cpm3viocu.onion", "pv6wdgmopellnhwq.onion"},
-    {"vlbkobjzqdz4jtav.onion", "w3z6kpzdtxbphrwy.onion"},
-    {"466ll6hop2ihx43f.onion", "m5wkhjmsu6tno7vg.onion"}
+    {"001.nodex.sh", "002.nodex.sh"},
+    {"003.nodex.sh", "004.nodex.sh"},
+    {"005.nodex.sh", "006.nodex.sh"},
+    {"007.nodex.sh", "008.nodex.sh"},
+    {"009.nodex.sh", "010.nodex.sh"},
+    {"011.nodex.sh", "012.nodex.sh"},
+    {"013.nodex.sh", "014.nodex.sh"},
+    {"2sniqueaf5nldci2.onion", "3qlbuysfxxrnnwkc.onion"},
+    {"nvucn7avf4sufe7y.onion", "lp4ob2zhr35hv4lb.onion"},
+    {"466ll6hop2ihx43f.onion", "m5wkhjmsu6tno7vg.onion"},
+    {"u3thogxooisifnjg.onion", "avxjazbutru5mufe.onion"},
+    {"tqbrn4rnwsjol6xw.onion", "6vg6bcexl5tynjqp.onion"}
 };
 
 void ThreadDNSAddressSeed(void* parg)
