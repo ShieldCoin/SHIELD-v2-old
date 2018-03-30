@@ -1414,7 +1414,7 @@ void static InvalidChainFound(CBlockIndex* pindexNew)
     {
         bnBestInvalidTrust = pindexNew->bnChainTrust;
         CTxDB().WriteBestInvalidTrust(bnBestInvalidTrust);
-        uiInterface.NotifyBlocksChanged();
+        // uiInterface.NotifyBlocksChanged();
     }
 
     printf("InvalidChainFound: invalid block=%s  height=%d  trust=%s  date=%s\n",
@@ -2288,7 +2288,7 @@ bool CBlock::AddToBlockIndex(unsigned int nFile, unsigned int nBlockPos)
         hashPrevBestCoinBase = vtx[0].GetHash();
     }
 
-    uiInterface.NotifyBlocksChanged();
+    // uiInterface.NotifyBlocksChanged();
     return true;
 }
 
@@ -2854,7 +2854,7 @@ bool CheckDiskSpace(uint64 nAdditionalBytes)
         string strMessage = _("Warning: Disk space is low!");
         strMiscWarning = strMessage;
         printf("*** %s\n", strMessage.c_str());
-        uiInterface.ThreadSafeMessageBox(strMessage, "SHIELD", CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
+        uiInterface.ThreadSafeMessageBox(strMessage, "SHIELD", CClientUIInterface::BTN_OK | CClientUIInterface::ICON_WARNING | CClientUIInterface::MODAL);
         StartShutdown();
         return false;
     }

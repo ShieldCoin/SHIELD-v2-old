@@ -15,11 +15,11 @@
 #include <QTextCodec>
 #include <QLocale>
 #include <QTranslator>
-#include <QSplashScreen>
 #include <QLibraryInfo>
 
 #include "init.h"
 #include "ui_interface.h"
+#include "splashscreen.h"
 
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
@@ -37,7 +37,7 @@ Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 
 // Need a global reference for the notifications to find the GUI
 static BitcoinGUI *guiref;
-static QSplashScreen *splashref;
+static SplashScreen *splashref;
 
 static void ThreadSafeMessageBox(const std::string& message, const std::string& caption, int style)
 {
@@ -196,13 +196,13 @@ int main(int argc, char *argv[])
         help.showOrPrint();
         return 1;
     }
-
-    QSplashScreen splash(QPixmap(GetBoolArg("-testnet") ? ":/images/splash_testnet" : ":/images/splash"), 0);
+    SplashScreen *splash = new SplashScreen(0, GetBoolArg("-testnet"));
+    // QSplashScreen splash(QPixmap(GetBoolArg("-testnet") ? ":/images/splash_testnet" : ":/images/splash"), 0);
     if (GetBoolArg("-splash", true) && !GetBoolArg("-min"))
     {
-        splash.show();
-        splash.setAutoFillBackground(true);
-        splashref = &splash;
+        splash->show();
+        // splash.setAutoFillBackground(true);
+        splashref = splash;
     }
 
     app.processEvents();
@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
                 optionsModel.Upgrade(); // Must be done after AppInit2
 
                 if (splashref)
-                    splash.finish(&window);
+                    splash->slotFinish(&window);
 
                 ClientModel clientModel(&optionsModel);
                 WalletModel walletModel(pwalletMain, &optionsModel);

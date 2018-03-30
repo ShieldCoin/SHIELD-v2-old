@@ -59,7 +59,8 @@ QT_MOC_CPP = \
   qt/moc_qrcodedialog.cpp \
   qt/moc_walletmodel.cpp \
   qt/moc_coincontroldialog.cpp \
-  qt/moc_coincontroltreewidget.cpp
+  qt/moc_coincontroltreewidget.cpp \
+  qt/moc_splashscreen.cpp
 
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
@@ -112,7 +113,8 @@ BITCOIN_QT_H = \
   qt/transactionview.h \
   qt/chatwindow.h \
   qt/serveur.h \
-  qt/walletmodel.h
+  qt/walletmodel.h \
+  qt/splashscreen.h
 
 RES_ICONS = \
   qt/res/icons/add.png \
@@ -184,7 +186,8 @@ BITCOIN_QT_CPP = \
   qt/optionsmodel.cpp \
   qt/qvalidatedlineedit.cpp \
   qt/qvaluecombobox.cpp \
-  qt/rpcconsole.cpp
+  qt/rpcconsole.cpp \
+  qt/splashscreen.cpp
 
 if ENABLE_WALLET
 BITCOIN_QT_CPP += \
