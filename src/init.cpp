@@ -710,7 +710,7 @@ bool AppInit2()
         return false;
     }
 
-    uiInterface.InitMessage(_("Loading block index..."));
+    uiInterface.InitMessage(_("Loading block index... this may take some time..."));
     printf("Loading block index...\n");
     nStart = GetTimeMillis();
     if (!LoadBlockIndex())
