@@ -90,6 +90,17 @@ static void InitMessage(const std::string &message)
         splashref->showMessage(QString::fromStdString(message), Qt::AlignBottom|Qt::AlignHCenter, QColor(255,255,200));
         QApplication::instance()->processEvents();
     }
+    
+//    if(!splashref.isNull()) // TODO: Fix invokeMethodBug
+//      {
+
+//         QMetaObject::invokeMethod(splashref.data(), "showMessage",
+//             Qt::QueuedConnection,
+//             Q_ARG(QString, QString::fromStdString(message)),
+//             Q_ARG(int, Qt::AlignBottom|Qt::AlignHCenter),
+//             Q_ARG(QColor, QColor(55,55,55)));
+//      }
+//      LogPrintf("init message: %s\n", message.c_str());
 }
 
 static void QueueShutdown()

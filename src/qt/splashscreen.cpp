@@ -118,11 +118,13 @@ void SplashScreen::slotFinish(QWidget *mainWin)
 
 static void InitMessage(SplashScreen *splash, const std::string &message)
 {
-    QMetaObject::invokeMethod(splash, "showMessage",
-        Qt::QueuedConnection,
-        Q_ARG(QString, QString::fromStdString(message)),
-        Q_ARG(int, Qt::AlignBottom|Qt::AlignHCenter),
-        Q_ARG(QColor, QColor(55,55,55)));
+    splash->showMessage(QString::fromStdString(message), Qt::AlignBottom|Qt::AlignHCenter, QColor(255,255,200));
+    QApplication::instance()->processEvents();
+    // QMetaObject::invokeMethod(splash, "showMessage",
+    //     Qt::QueuedConnection,
+    //     Q_ARG(QString, QString::fromStdString(message)),
+    //     Q_ARG(int, Qt::AlignBottom|Qt::AlignHCenter),
+    //     Q_ARG(QColor, QColor(55,55,55)));
 }
 
 static void ShowProgress(SplashScreen *splash, const std::string &title, int nProgress)
