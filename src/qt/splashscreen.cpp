@@ -23,12 +23,12 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, bool isTestNet) :
     //setAutoFillBackground(true);
 
     // set reference point, paddings
-    int paddingRight            = 50;
-    int paddingTop              = 50;
-    int titleVersionVSpace      = 17;
-    int titleCopyrightVSpace    = 40;
+    int paddingRight            = 5;
+    int paddingTop              = 18;
+    int titleVersionVSpace      = 15;
+    int titleCopyrightVSpace    = 20;
 
-    float fontFactor            = 1.0;
+    float fontFactor            = 0.7;
 
     // define text to place
     QString titleText       = tr("SHIELD Core");
@@ -36,7 +36,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, bool isTestNet) :
     QString copyrightText   = QChar(0xA9)+QString(" 2017-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The SHIELD Core developers"));
     QString testnetAddText  = QString(tr("[testnet]")); // define text to place as single text object
 
-    QString font            = "Arial";
+    QString font            = "Open Sans";
 
     // load the bitmap for writing some text over it
     if(isTestNet) {
@@ -47,7 +47,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, bool isTestNet) :
     }
 
     QPainter pixPaint(&pixmap);
-    pixPaint.setPen(QColor(100,100,100));
+    pixPaint.setPen(QColor(255,255,200));
 
     // check font size and drawing with
     pixPaint.setFont(QFont(font, 33*fontFactor));
@@ -58,10 +58,10 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, bool isTestNet) :
         fontFactor = 0.75;
     }
 
-    pixPaint.setFont(QFont(font, 33*fontFactor));
+    pixPaint.setFont(QFont(font, 15*fontFactor));
     fm = pixPaint.fontMetrics();
     titleTextWidth  = fm.width(titleText);
-    pixPaint.drawText(pixmap.width()-titleTextWidth-paddingRight,paddingTop,titleText);
+    pixPaint.drawText(paddingRight,paddingTop,titleText);
 
     pixPaint.setFont(QFont(font, 15*fontFactor));
 
@@ -72,11 +72,11 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, bool isTestNet) :
         pixPaint.setFont(QFont(font, 10*fontFactor));
         titleVersionVSpace -= 5;
     }
-    pixPaint.drawText(pixmap.width()-titleTextWidth-paddingRight+2,paddingTop+titleVersionVSpace,versionText);
+    pixPaint.drawText(paddingRight+2,paddingTop+titleVersionVSpace,versionText);
 
     // draw copyright stuff
     pixPaint.setFont(QFont(font, 10*fontFactor));
-    pixPaint.drawText(pixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,copyrightText);
+    pixPaint.drawText(paddingRight+3,paddingTop+titleCopyrightVSpace,copyrightText);
 
     // draw testnet string if testnet is on
     if(isTestNet) {
