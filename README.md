@@ -108,42 +108,21 @@ To compile on Mac (OSX El Capitan, but test compiled on Mountain Lion v10.8):
 ------------
 1. Ensure you do not have qt5 nor qt installed.
 
-    `brew uninstall qt qt5 qt55 qt52`   
-   
-2. Download [qt5.4.2](https://download.qt.io/archive/qt/5.4/5.4.2/qt-opensource-mac-x64-clang-5.4.2.dmg)
-     
-3. Install qt5 into /usr/local/qt5
-   
-   Note: Change the installation folder from "xxx/Qt5.4.2" to "/usr/local/qt5"
-   
-4. Run these commands:
-
-    `export PKG_CONFIG_PATH=/usr/local/qt5/5.4/clang_64/lib/pkgconfig`
-    
-    `export PATH=/usr/local/qt5/5.4/clang_64/bin:$PATH`
-    
-    `export QT_CFLAGS="-I/usr/local/qt5/5.4/clang_64/lib/QtWebKitWidgets.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtWebView.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtDBus.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtWebKit.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtNetwork.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtGui.framework/Versions/5/Headers -I/usr/local/qt5/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers -I. -I/usr/local/qt5/5.4/clang_64/mkspecs/macx-clang -F/usr/local/qt5/5.4/clang_64/lib"`
-    
-    `export QT_LIBS="-F/usr/local/qt5/5.4/clang_64/lib -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL -framework QtNetwork -framework QtWebKit -framework QtWebKitWidgets -framework QtDBus -framework QtWebView"`
-    
-    
-5. Install the other required items:
-
-    `brew install protobuf boost@1.57 miniupnpc openssl qrencode berkeley-db4 automake`
-    
+    `brew install qt@5.5 boost@1.57 automake miniupnpc openssl protobuf protobuf berkeley-db@4`   
     `brew link boost@1.57 --force`
-    
-6. Download the wallet source and build:
+
+
+2. Download the wallet source and build:
 
     `git clone https://github.com/ShieldCoin/SHIELD`
 
     `cd SHIELD`
     
-    `./autogen.sh`
+    `./building/common.sh`
     
-    `./configure --with-gui=qt5`
+    `./building/build.sh`
     
-    `make -j4`
+    `./building/dist.sh`
     
 
 Building the Mac installer (.dmg) file
