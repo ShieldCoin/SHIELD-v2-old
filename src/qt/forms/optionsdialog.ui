@@ -1331,15 +1331,7 @@ QDateEdit::down-arrow:focus
          <item>
           <widget class="BitcoinAmountField" name="transactionFee">
            <property name="styleSheet">
-            <string notr="true">border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 15px;
-max-height: 15px;
-min-width: 50px;
-max-width: 50px;</string>
+            <string notr="true"></string>
            </property>
           </widget>
          </item>
@@ -1422,16 +1414,7 @@ max-width: 50px;</string>
             <string>IP address of the proxy (e.g. 127.0.0.1)</string>
            </property>
            <property name="styleSheet">
-            <string notr="true">
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 150px;
-max-width: 150px;</string>
+            <string notr="true"></string>
            </property>
           </widget>
          </item>
@@ -1460,15 +1443,7 @@ max-width: 150px;</string>
             <string>Port of the proxy (e.g. 9050)</string>
            </property>
            <property name="styleSheet">
-            <string notr="true">border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 80px;
-max-width: 80px;</string>
+            <string notr="true"></string>
            </property>
           </widget>
          </item>
@@ -1491,15 +1466,7 @@ max-width: 80px;</string>
             <string>SOCKS version of the proxy (e.g. 5)</string>
            </property>
            <property name="styleSheet">
-            <string notr="true">border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 80px;
-max-width: 80px;</string>
+            <string notr="true"></string>
            </property>
           </widget>
          </item>
@@ -1599,27 +1566,8 @@ max-width: 80px;</string>
             <string>The user interface language can be set here. This setting will take effect after restarting SHIELD.</string>
            </property>
            <property name="styleSheet">
-            <string notr="true">
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 300px;
-max-width: 300px;</string>
+            <string notr="true"></string>
            </property>
-           <item>
-            <property name="text">
-             <string>English</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Russian</string>
-            </property>
-           </item>
           </widget>
          </item>
         </layout>
@@ -1645,16 +1593,7 @@ max-width: 300px;</string>
             <string>Choose the default subdivision unit to show in the interface and when sending coins.</string>
            </property>
            <property name="styleSheet">
-            <string notr="true">
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 100px;
-max-width: 100px;</string>
+            <string notr="true"></string>
            </property>
            <item>
             <property name="text">
@@ -1763,15 +1702,8 @@ max-width: 100px;</string>
       <widget class="QPushButton" name="okButton">
        <property name="styleSheet">
         <string notr="true">
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 100px;
-max-width: 100px;</string>
+min-width: 80px;
+max-width: 80px;</string>
        </property>
        <property name="text">
         <string>&amp;OK</string>
@@ -1782,15 +1714,9 @@ max-width: 100px;</string>
       <widget class="QPushButton" name="cancelButton">
        <property name="styleSheet">
         <string notr="true">
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 100px;
-max-width: 100px;</string>
+margin-left: 5px;
+min-width: 80px;
+max-width: 80px;</string>
        </property>
        <property name="text">
         <string>&amp;Cancel</string>
@@ -1804,15 +1730,10 @@ max-width: 100px;</string>
       <widget class="QPushButton" name="applyButton">
        <property name="styleSheet">
         <string notr="true">
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-border: 2px solid #000000;
-min-height: 25px;
-max-height: 25px;
-min-width: 100px;
-max-width: 100px;</string>
+margin-left: 5px;
+margin-right: 5px;
+min-width: 80px;
+max-width: 80px;</string>
        </property>
        <property name="text">
         <string>&amp;Apply</string>
