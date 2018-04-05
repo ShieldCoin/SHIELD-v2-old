@@ -159,6 +159,13 @@ enum
     BLOCK_VERSION_LYRA2RE	 = (10 << 11),
 };
 
+inline int64 GetMaxClockDrift(int Height=nBestHeight){
+    if (Height < 660000)
+        return 2 * 60 * 60;
+    else
+        return 10 * 60;
+}
+
 inline int GetTargetSpacing(int Height=nBestHeight, bool fProofOfStake=false)
 {
     if(fProofOfStake){
