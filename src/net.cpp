@@ -1050,7 +1050,14 @@ void ThreadDNSAddressSeed2(void* parg)
                         found++;
                     }
                 }
-                addrman.Add(vAdd, CNetAddr(strDNSSeed[seed_idx][0], true));
+                vector<CNetAddr> vseedaddr;
+
+                if (LookupHost(strDNSSeed[seed_idx][0], vseedaddr)){
+                    BOOST_FOREACH(CNetAddr& ip, vseedaddr)
+                    {
+                        addrman.Add(vAdd, CNetAddr(ip.ToStringIP(), true));
+                    }
+                }
             }
         }
     }
